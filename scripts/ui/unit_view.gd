@@ -11,6 +11,7 @@ var data: Dictionary = {}
 var intent: Dictionary = {}
 var targeted := false
 var alive := true
+var show_body := true
 
 var _t := 0.0
 var _flash := 0.0
@@ -60,14 +61,13 @@ func _draw() -> void:
 	if alive:
 		_draw_intent(font, tint)
 
-	# 光晕
-	for i in 5:
-		draw_circle(c, (70.0 - i * 10.0) * s, Color(tint.r, tint.g, tint.b, 0.035))
-
-	match str(def.get("shape", "eye")):
-		"fang": _draw_fang(c, s, tint)
-		"spike": _draw_spike(c, s, tint)
-		_: _draw_eye(c, s, tint)
+	if show_body:
+		for i in 5:
+			draw_circle(c, (70.0 - i * 10.0) * s, Color(tint.r, tint.g, tint.b, 0.035))
+		match str(def.get("shape", "eye")):
+			"fang": _draw_fang(c, s, tint)
+			"spike": _draw_spike(c, s, tint)
+			_: _draw_eye(c, s, tint)
 
 	if _flash > 0.0:
 		draw_circle(c, 58.0 * s, Color(1, 0.85, 0.8, 0.35 * _flash))

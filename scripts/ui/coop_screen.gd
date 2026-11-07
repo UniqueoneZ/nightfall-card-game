@@ -16,6 +16,7 @@ const DECKS := [
 var engine: CoopEngine
 var bg: ArenaBackground
 var boss_view: UnitView
+var boss_3d: BossStage3D
 var p_views: Array = []
 var hotspots: Array = []
 var hand_layer: Control
@@ -123,8 +124,16 @@ func _build() -> void:
 	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(line)
 
+	boss_3d = BossStage3D.new()
+	boss_3d.position = Vector2(490, 20)
+	boss_3d.size = Vector2(460, 460)
+	boss_3d.z_index = 1
+	units_layer.add_child(boss_3d)
+
 	boss_view = UnitView.new()
 	boss_view.position = Vector2(620, 96)
+	boss_view.z_index = 2
+	boss_view.show_body = false
 	units_layer.add_child(boss_view)
 
 	for i in 2:
@@ -537,6 +546,8 @@ func _animate(evs: Array) -> void:
 				_float_text(pos + Vector2(randf_range(-14, 14), 0), "-%d" % int(ev.get("amount", 0)), col, 26)
 				if str(ev.get("target", "")) == "boss":
 					boss_view.flash()
+					if boss_3d != null:
+						boss_3d.flash()
 				else:
 					_nudge_panel(str(ev.get("target", "")))
 				await _wait(0.18)
