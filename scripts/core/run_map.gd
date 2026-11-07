@@ -53,18 +53,22 @@ static func _enemies_for(t: String, f: int, rng: RandomNumberGenerator) -> Array
 		T_BOSS:
 			return ["warden3"]
 		T_ELITE:
-			var elites := ["bishop", "warden", "golem"]
+			var elites := ["bishop", "warden", "golem", "knight", "ogre"]
 			return [str(elites[rng.randi_range(0, elites.size() - 1)])]
 		T_BATTLE:
 			var pool := ["goblin", "hound"]
 			if f >= 1:
 				pool.append("wraith")
+				pool.append("spider")
 			if f >= 2:
 				pool.append("gargoyle")
+				pool.append("twin")
 			if f >= 3:
 				pool.append("acolyte")
+				pool.append("witch")
 			if f >= 5:
 				pool.append("bishop")
+				pool.append("cultist")
 			var n := 1
 			if f >= 3 and rng.randf() < 0.45:
 				n = 2

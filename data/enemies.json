@@ -358,6 +358,201 @@
         1,
         2
       ]
+    },
+    {
+      "id": "spider",
+      "name": "腐蛛",
+      "hp": 26,
+      "shape": "fang",
+      "tint": "#6E8B5A",
+      "scale": 0.85,
+      "flavor": "网里还挂着上一次的旅人。",
+      "moves": [
+        {
+          "name": "毒牙",
+          "type": "attack",
+          "damage": 6
+        },
+        {
+          "name": "吐丝",
+          "type": "debuff",
+          "status": "weak",
+          "value": 2
+        },
+        {
+          "name": "连咬",
+          "type": "attack",
+          "damage": 4,
+          "hits": 2
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "knight",
+      "name": "堕落骑士",
+      "hp": 56,
+      "shape": "spike",
+      "tint": "#8C7A6A",
+      "scale": 1.1,
+      "flavor": "甲胄里没有人，只有执念。",
+      "moves": [
+        {
+          "name": "重斩",
+          "type": "attack",
+          "damage": 12
+        },
+        {
+          "name": "举盾",
+          "type": "defend",
+          "block": 9
+        },
+        {
+          "name": "冲锋",
+          "type": "attack",
+          "damage": 16
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "witch",
+      "name": "沼泽女巫",
+      "hp": 42,
+      "shape": "eye",
+      "tint": "#7AA06A",
+      "scale": 0.95,
+      "flavor": "她笑着，把什么东西丢进了锅里。",
+      "moves": [
+        {
+          "name": "诅咒",
+          "type": "debuff",
+          "status": "vulnerable",
+          "value": 2
+        },
+        {
+          "name": "毒雾",
+          "type": "attack",
+          "damage": 7
+        },
+        {
+          "name": "熬药",
+          "type": "buff",
+          "status": "strength",
+          "value": 2
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "twin",
+      "name": "双生幽影",
+      "hp": 32,
+      "shape": "eye",
+      "tint": "#6A6A9A",
+      "scale": 0.9,
+      "flavor": "你砍中一个，另一个就笑起来。",
+      "moves": [
+        {
+          "name": "双爪",
+          "type": "attack",
+          "damage": 5,
+          "hits": 2
+        },
+        {
+          "name": "低语",
+          "type": "debuff",
+          "status": "weak",
+          "value": 1
+        },
+        {
+          "name": "撕扯",
+          "type": "attack",
+          "damage": 10
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "ogre",
+      "name": "食人魔",
+      "hp": 72,
+      "shape": "fang",
+      "tint": "#9A7A5A",
+      "scale": 1.25,
+      "flavor": "它把门框整个拆了下来。",
+      "moves": [
+        {
+          "name": "巨棒",
+          "type": "attack",
+          "damage": 15
+        },
+        {
+          "name": "咆哮",
+          "type": "buff",
+          "status": "strength",
+          "value": 2
+        },
+        {
+          "name": "践踏",
+          "type": "attack",
+          "damage": 10
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "cultist",
+      "name": "邪教徒",
+      "hp": 44,
+      "shape": "spike",
+      "tint": "#8A5A6A",
+      "scale": 1.0,
+      "flavor": "他在数还有几个人没被献上。",
+      "moves": [
+        {
+          "name": "祈祷",
+          "type": "buff",
+          "status": "strength",
+          "value": 3
+        },
+        {
+          "name": "匕首",
+          "type": "attack",
+          "damage": 7
+        },
+        {
+          "name": "献祭",
+          "type": "attack",
+          "damage": 13
+        }
+      ],
+      "pattern": [
+        1,
+        0,
+        1,
+        2
+      ]
     }
   ],
   "encounters": [

@@ -154,7 +154,7 @@ func _show_event() -> void:
 func _make_event_cb(fx: Dictionary) -> Callable:
 	return func() -> void:
 		if fx.has("gold"):
-			Game.gold += int(fx["gold"])
+			Game.gold = maxi(0, Game.gold + int(fx["gold"]))
 		if fx.has("heal"):
 			Game.heal(int(fx["heal"]))
 		if fx.has("damage"):
