@@ -40,8 +40,7 @@ func _ready() -> void:
 		if a.begins_with("--enc="):
 			enc_index = int(a.substr(6))
 	_build()
-	Game.new_run(20261107 if (shot_mode or auto_mode) else 0)
-	Game.encounter_index = clampi(enc_index, 0, DB.encounter_count() - 1)
+	Game.ensure_run()
 	_start_battle()
 	if shot_mode:
 		_run_shot()
@@ -177,9 +176,9 @@ func _spawn_units() -> void:
 
 func _refresh() -> void:
 	floor_label.text = "第 %d / %d 层    %s" % [
-		Game.encounter_index + 1, DB.encounter_count(), Game.encounter_title()
+		Game.floor_idx + 1, Game.map.size(), RunMap.type_label(Game.node_type())
 	]
-	title_wm.text = Game.encounter_title()
+	title_wm.text = RunMap.type_label(Game.node_type())
 	turn_label.text = "回合 %d" % engine.turn
 	pile_label.text = "抽牌堆 %d      弃牌堆 %d      消耗 %d" % [
 		engine.draw_pile.size(), engine.discard_pile.size(), engine.exhaust_pile.size()
@@ -381,26 +380,29 @@ func _check_outcome() -> void:
 		_on_defeat()
 
 func _on_victory() -> void:
-	var is_last := Game.encounter_index + 1 >= DB.encounter_count()
 	var st := engine.stats
 	var sub := "造成 %d 点伤害 · 打出 %d 张牌" % [int(st["damage_dealt"]), int(st["cards_played"])]
-	if is_last:
-		_show_overlay("黎明之前", "%s\n\n你走出了无光礼拜堂。" % sub, "再来一局", _restart)
-	else:
-		_show_overlay("战斗胜利", "%s\n\n回复 %d 点生命，继续深入。" % [sub, Game.HEAL_BETWEEN], "继续深入", _next_battle)
+	if engine.phase == "victory":
+		Game.hp = int(engine.player["hp"])
+		Game.mark_visited()
+		Game.gold += 25 + maxi(Game.floor_idx, 0) * 5
+		var boss := Game.node_type() == "boss"
+		if boss:
+			_show_overlay("黎明之前", "%s\n\n你击败了无光之王。" % sub, "再来一局", _restart)
+		else:
+			_show_overlay("战斗胜利", "%s\n\n+%d 金币" % [sub, 25 + maxi(Game.floor_idx, 0) * 5], "返回地图", _back_to_map)
 
 func _on_defeat() -> void:
 	_show_overlay("你倒下了", "夜色合拢。\n但牌局从来不止一次。", "再试一次", _restart)
 
-func _next_battle() -> void:
+func _back_to_map() -> void:
 	_close_overlay()
-	Game.advance()
-	_start_battle()
+	get_tree().change_scene_to_file("res://scenes/map.tscn")
 
 func _restart() -> void:
 	_close_overlay()
 	Game.new_run(0)
-	_start_battle()
+	get_tree().change_scene_to_file("res://scenes/map.tscn")
 
 # ---------------------------------------------------------------- 遮罩层
 
@@ -491,13 +493,13 @@ func _run_auto() -> void:
 			battles += 1
 			await _autoplay_battle()
 			print("AUTO: 第 %d 场结束 phase=%s turns=%d hp=%d" % [
-				Game.encounter_index + 1, engine.phase, engine.turn, int(engine.player["hp"])])
+				Game.floor_idx + 1, engine.phase, engine.turn, int(engine.player["hp"])])
 			if engine.phase != "victory":
 				break
-			if Game.encounter_index + 1 >= DB.encounter_count():
+			if true:
 				break
 			await _wait(0.6)
-			_next_battle()
+			_back_to_map()
 			await _wait(0.4)
 	else:
 		await _autoplay_battle()

@@ -36,7 +36,7 @@ func _ready() -> void:
 
 	var solo := _menu_button("单人爬塔", "独自深入，构筑卡组", Vector2(500, 400))
 	solo.pressed.connect(func() -> void:
-		get_tree().change_scene_to_file("res://scenes/main.tscn"))
+		get_tree().change_scene_to_file("res://scenes/map.tscn"))
 	add_child(solo)
 
 	var coop := _menu_button("双人合作", "共享回合，一起打 Boss", Vector2(500, 520))
