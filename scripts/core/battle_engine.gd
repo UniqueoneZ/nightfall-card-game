@@ -291,6 +291,8 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 		return
 	var cur := int(actor["statuses"].get(status, 0))
 	actor["statuses"][status] = maxi(0, cur + stacks)
+	if status == "beast":
+		actor["statuses"]["beast"] = mini(int(actor["statuses"]["beast"]), 3)
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status], "delta": stacks})
 
 func _end_of_turn_tick(actor: Dictionary) -> void:
@@ -301,6 +303,7 @@ func _end_of_turn_tick(actor: Dictionary) -> void:
 		if not alive.is_empty():
 			var tgt: Dictionary = alive[rng.randi_range(0, alive.size() - 1)]
 			_attack(actor, tgt, seal * 2)
+			actor["statuses"]["seal"] = seal - 1
 	var beast := int(actor["statuses"].get("beast", 0))
 	if beast > 0 and bool(actor.get("is_player", false)):
 		var alive := living_enemies()

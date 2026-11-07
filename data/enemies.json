@@ -157,7 +157,7 @@
     {
       "id": "warden2",
       "name": "深渊主教 · 卡戎",
-      "hp": 175,
+      "hp": 160,
       "shape": "eye",
       "tint": "#A05A7A",
       "scale": 1.18,
@@ -196,7 +196,7 @@
     {
       "id": "warden3",
       "name": "无光之王",
-      "hp": 230,
+      "hp": 200,
       "shape": "spike",
       "tint": "#C0603C",
       "scale": 1.3,

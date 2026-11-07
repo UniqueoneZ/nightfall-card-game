@@ -441,6 +441,8 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 		return
 	var cur := int(actor["statuses"].get(status, 0))
 	actor["statuses"][status] = maxi(0, cur + stacks)
+	if status == "beast":
+		actor["statuses"]["beast"] = mini(int(actor["statuses"]["beast"]), 3)
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status]})
 
 func _tick_player_statuses(p: Dictionary) -> void:
@@ -451,6 +453,7 @@ func _tick_player_statuses(p: Dictionary) -> void:
 	var seal := int(p["statuses"].get("seal", 0))
 	if seal > 0 and boss["alive"]:
 		_attack(p, boss, seal * 2)
+		p["statuses"]["seal"] = seal - 1
 	var burn := int(p["statuses"].get("burn", 0))
 	if burn > 0:
 		p["hp"] = maxi(0, int(p["hp"]) - burn)
