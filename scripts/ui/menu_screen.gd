@@ -36,20 +36,20 @@ func _ready() -> void:
 	add_child(sub)
 
 	var cls_row := HBoxContainer.new()
-	cls_row.position = Vector2(500, 336)
+	cls_row.position = Vector2(480, 336)
 	cls_row.size = Vector2(440, 44)
 	cls_row.add_theme_constant_override("separation", 12)
 	add_child(cls_row)
 	var cls_buttons: Array = []
-	for cid in ["oathbound", "emberwright", "shadowblade", "hierophant"]:
+	for cid in ["oathbound", "emberwright", "shadowblade", "hierophant", "beastcaller"]:
 		var b := Button.new()
 		b.text = str(Game.CLASS_NAMES.get(cid, cid))
-		b.custom_minimum_size = Vector2(101, 42)
+		b.custom_minimum_size = Vector2(88, 42)
 		b.add_theme_font_size_override("font_size", 15)
 		b.pressed.connect(func() -> void:
 			_selected_class = cid
 			for i in cls_buttons.size():
-				var key: String = str(["oathbound", "emberwright", "shadowblade", "hierophant"][i])
+				var key: String = str(["oathbound", "emberwright", "shadowblade", "hierophant", "beastcaller"][i])
 				var on: bool = key == cid
 				cls_buttons[i].add_theme_stylebox_override("normal",
 					UITheme.button_box(Color(0.10, 0.12, 0.17, 0.95) if on else UITheme.PANEL,

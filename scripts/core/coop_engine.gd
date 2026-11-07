@@ -60,7 +60,7 @@ func _make_boss(d: Dictionary) -> Dictionary:
 		"hp": int(d.get("hp", 120)),
 		"max_hp": int(d.get("hp", 120)),
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0, "beast": 0, "mark": 0},
 		"def": d,
 		"pattern_idx": 0,
 		"alive": true,
@@ -75,7 +75,7 @@ func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 		"hp": hp,
 		"max_hp": hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0, "beast": 0, "mark": 0},
 		"energy": ENERGY,
 		"hand": [],
 		"draw": deck,
@@ -369,6 +369,9 @@ func _attack(src: Dictionary, tgt: Dictionary, base: int, ignore_coop_bonus: boo
 	var dmg := attack_value(src, base)
 	if int(tgt["statuses"]["vulnerable"]) > 0:
 		dmg = int(floor(dmg * 1.5))
+	if int(tgt["statuses"].get("mark", 0)) > 0:
+		dmg += int(tgt["statuses"]["mark"])
+		tgt["statuses"]["mark"] = int(tgt["statuses"]["mark"]) - 1
 	var blocked := mini(int(tgt["block"]), dmg)
 	tgt["block"] = int(tgt["block"]) - blocked
 	var hp_loss := dmg - blocked
@@ -441,6 +444,10 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status]})
 
 func _tick_player_statuses(p: Dictionary) -> void:
+	var beast := int(p["statuses"].get("beast", 0))
+	if beast > 0 and boss["alive"]:
+		for i in beast:
+			_attack(p, boss, 4)
 	var seal := int(p["statuses"].get("seal", 0))
 	if seal > 0 and boss["alive"]:
 		_attack(p, boss, seal * 4)

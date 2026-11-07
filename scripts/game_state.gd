@@ -15,6 +15,10 @@ const CLASS_DECKS := {
 		"e_ember", "e_ember", "e_ember", "e_ember", "e_cinder", "e_cinder",
 		"e_cinder", "e_kindling", "e_kindling", "e_guard", "e_guard", "e_sacrifice",
 	],
+	"beastcaller": [
+		"b_strike", "b_strike", "b_strike", "b_guard", "b_guard", "b_wolf",
+		"b_wolf", "b_mark", "b_shot", "b_pack", "b_camp", "b_call",
+	],
 	"hierophant": [
 		"h_light", "h_light", "h_light", "h_prayer", "h_prayer", "h_seal",
 		"h_mend", "h_shelter", "h_smite", "h_bless", "h_chant", "h_purify",
@@ -24,7 +28,7 @@ const CLASS_DECKS := {
 		"s_dodge", "s_venom", "s_combo", "s_combo", "s_shadowstep", "s_light",
 	],
 }
-const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃", "hierophant": "圣祷者"}
+const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃", "hierophant": "圣祷者", "beastcaller": "驭兽人"}
 
 const MAX_HP := 80
 const HEAL_BETWEEN := 20

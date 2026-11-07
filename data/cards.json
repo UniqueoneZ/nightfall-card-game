@@ -3022,6 +3022,583 @@
           "v": 2
         }
       ]
+    },
+    {
+      "id": "b_strike",
+      "name": "兽击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "造成 6 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "b_guard",
+      "name": "护林",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "获得 5 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "b_wolf",
+      "name": "唤狼",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "召唤 1 只影狼（回合末造成 4 点伤害）。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_mark",
+      "name": "标记",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "施加 3 层标记（受击时额外受伤）。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "b_shot",
+      "name": "射击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "造成 5 点伤害，施加 1 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_pack",
+      "name": "兽群",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "beastcaller",
+      "desc": "召唤 2 只影狼。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_trap",
+      "name": "陷阱",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "施加 4 层标记。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "b_arrow",
+      "name": "穿甲箭",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "造成 10 点伤害，施加 2 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_hawk",
+      "name": "猎鹰",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "召唤 1 只猎鹰。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_camp",
+      "name": "营地",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "获得 6 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_swarm",
+      "name": "蜂群",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "造成 4 点伤害，三次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4,
+          "hits": 3
+        }
+      ]
+    },
+    {
+      "id": "b_tame",
+      "name": "驯服",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "召唤 2 只影狼。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_spear",
+      "name": "长矛",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "造成 7 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 7
+        }
+      ]
+    },
+    {
+      "id": "b_heal",
+      "name": "草药",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "回复 5 点生命，获得 3 点格挡。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 5
+        },
+        {
+          "k": "block",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "b_snare",
+      "name": "束缚",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "施加 2 层标记与 1 层虚弱。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 2
+        },
+        {
+          "k": "status",
+          "status": "weak",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_bear",
+      "name": "巨熊",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "召唤 1 只巨熊。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        },
+        {
+          "k": "block",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "b_volley",
+      "name": "齐射",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "造成 8 点伤害，施加 2 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_call",
+      "name": "号角",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "beastcaller",
+      "desc": "召唤 1 只影狼，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_packhunt",
+      "name": "群猎",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "造成 6 点伤害，两次，施加 2 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6,
+          "hits": 2
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_alpha",
+      "name": "首领",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "召唤 2 只影狼，+1 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 2
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_skewer",
+      "name": "穿刺",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "造成 22 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 22
+        }
+      ]
+    },
+    {
+      "id": "b_beastcall",
+      "name": "万兽奔腾",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "召唤 3 只影狼。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "b_hunter",
+      "name": "猎人",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "获得 12 点格挡，召唤 1 只影狼。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        },
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_markbeast",
+      "name": "血标",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "造成 6 点伤害，施加 3 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "b_ambush2",
+      "name": "伏击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "造成 9 点伤害，若目标有标记则 +9。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 9
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "b_nest",
+      "name": "兽巢",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "beastcaller",
+      "desc": "召唤 2 只影狼，回复 4 点生命。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 2
+        },
+        {
+          "k": "heal",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "b_apex",
+      "name": "顶点猎手",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "beastcaller",
+      "desc": "造成 18 点伤害，施加 5 层标记。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 18
+        },
+        {
+          "k": "status",
+          "status": "mark",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "b_stampede",
+      "name": "兽潮",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "beastcaller",
+      "desc": "召唤 4 只影狼。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "b_bond",
+      "name": "兽群羁绊",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "epic",
+      "class": "beastcaller",
+      "desc": "+2 力量，召唤 1 只影狼。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        },
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "b_wild",
+      "name": "荒野之主",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "legendary",
+      "class": "beastcaller",
+      "desc": "召唤 5 只影狼，+2 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "beast",
+          "v": 5
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
     }
   ]
 }

@@ -68,7 +68,7 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 		"hp": clampi(hp, 0, max_hp),
 		"max_hp": max_hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0, "beast": 0, "mark": 0},
 		"attacks": 0,
 		"is_player": is_player,
 		"alive": hp > 0,
@@ -243,6 +243,9 @@ func _attack(src: Dictionary, tgt: Dictionary, base: int) -> void:
 	var dmg := attack_value(src, base)
 	if int(tgt["statuses"]["vulnerable"]) > 0:
 		dmg = int(floor(dmg * 1.5))
+	if int(tgt["statuses"].get("mark", 0)) > 0:
+		dmg += int(tgt["statuses"]["mark"])
+		tgt["statuses"]["mark"] = int(tgt["statuses"]["mark"]) - 1
 	var blocked := mini(int(tgt["block"]), dmg)
 	tgt["block"] = int(tgt["block"]) - blocked
 	var hp_loss := dmg - blocked
@@ -298,6 +301,13 @@ func _end_of_turn_tick(actor: Dictionary) -> void:
 		if not alive.is_empty():
 			var tgt: Dictionary = alive[rng.randi_range(0, alive.size() - 1)]
 			_attack(actor, tgt, seal * 4)
+	var beast := int(actor["statuses"].get("beast", 0))
+	if beast > 0 and bool(actor.get("is_player", false)):
+		var alive := living_enemies()
+		for i in beast:
+			if alive.is_empty():
+				break
+			_attack(actor, alive[rng.randi_range(0, alive.size() - 1)], 4)
 	var burn := int(actor["statuses"].get("burn", 0))
 	if burn > 0:
 		actor["hp"] = maxi(0, int(actor["hp"]) - burn)
