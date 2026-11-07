@@ -112,3 +112,51 @@ rsync -avz --delete build/web/ user@server:/var/www/nightfall/   # 2. 同步
 ```
 
 建议在 CI 里加一步：导出后 `gzip -9` 检查体积是否超阈值（例如 15 MB）。
+
+## 6. GitHub Pages 部署（已上线）
+
+线上地址：<https://uniqueonez.github.io/nightfall-card-game/>
+
+### 6.1 分支结构
+
+| 分支 | 内容 |
+| --- | --- |
+| `main` | 工程源码 |
+| `gh-pages` | 构建产物（Pages 从这个分支发布） |
+
+发布 = 把 `build/web/` 的内容推到 `gh-pages` 分支。
+
+### 6.2 实测问题：github.io 被限速
+
+| 线路 | 实测速度 | 38 MB wasm 首次加载 |
+| --- | --- | --- |
+| `*.github.io` | ≈ 36 KB/s | 约 18 分钟 ❌ |
+| `raw.githubusercontent.com` | ≈ 670 KB/s | 约 1 分钟 ✅ |
+
+而且 github.io **不压缩** wasm（响应头没有 `content-encoding`），38 MB 原样下发。
+
+### 6.3 解决：混合 CDN
+
+HTML/JS 留在 Pages，`index.wasm` / `index.pck` 指向 raw CDN：
+
+```bash
+CDN_REPO=UniqueoneZ/nightfall-card-game bash tools/build_web.sh
+# 等价于构建后手动执行：
+# python3 tools/patch_web_cdn.py build/web/index.html UniqueoneZ/nightfall-card-game gh-pages
+```
+
+补丁只改 `index.html` 里的一行配置：
+
+```json
+"executable":"https://raw.githubusercontent.com/<owner>/<repo>/gh-pages/index",
+"mainPack":"https://raw.githubusercontent.com/<owner>/<repo>/gh-pages/index.pck"
+```
+
+raw.githubusercontent.com 带 `Access-Control-Allow-Origin: *`，跨域加载没问题。
+
+### 6.4 取舍
+
+- 优点：完全免费、无需新账号、国内首次加载可接受；
+- 缺点：依赖 raw CDN 的可用性，且 GitHub raw 有软性限流，**只适合演示**；
+- 正式发布建议换国内对象存储（阿里云 OSS / 腾讯云 COS / EdgeOne Pages）
+  或自建 Nginx，见第 3 节；那时把 `CDN_REPO` 去掉即可回到单域名部署。

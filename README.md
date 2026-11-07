@@ -18,6 +18,10 @@
 
 或用 Godot 编辑器：打开 `~/Applications/Godot.app` → Import → 选择本目录 → F5。
 
+## 在线试玩
+
+**<https://uniqueonez.github.io/nightfall-card-game/>**（GitHub Pages，国内首次加载约 1 分钟）
+
 ## Web 版（可部署到服务器）
 
 ```bash

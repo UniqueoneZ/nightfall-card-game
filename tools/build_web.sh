@@ -22,6 +22,12 @@ if [ ! -f build/web/index.wasm ]; then
   exit 1
 fi
 
+# 可选：把 wasm/pck 指向 GitHub raw CDN（国内 github.io 限速时使用）
+if [ -n "${CDN_REPO:-}" ]; then
+  echo "==> 应用 CDN 补丁: $CDN_REPO"
+  python3 tools/patch_web_cdn.py build/web/index.html "$CDN_REPO" "${CDN_BRANCH:-gh-pages}"
+fi
+
 echo "==> 产物"
 du -sh build/web
 ls -lh build/web | sed 's/^/    /'
