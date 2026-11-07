@@ -1,0 +1,35 @@
+; Nightfall · 夜蚀牌局
+; Godot 4.5 project file
+config_version=5
+
+[application]
+
+config/name="夜蚀 Nightfall"
+config/description="暗黑幻想 Roguelike 卡牌构筑 · 战斗原型"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0.043137, 0.047059, 0.070588, 1)
+boot_splash/show_image=false
+
+[autoload]
+
+DB="*res://scripts/data/database.gd"
+Game="*res://scripts/game_state.gd"
+
+[display]
+
+window/size/viewport_width=1440
+window/size/viewport_height=900
+window/stretch/mode="canvas_items"
+window/stretch/aspect="keep"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.043137, 0.047059, 0.070588, 1)
+textures/canvas_textures/default_texture_filter=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false

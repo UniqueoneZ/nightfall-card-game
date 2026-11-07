@@ -1,0 +1,59 @@
+{
+  "_meta": {
+    "version": 1,
+    "note": "moves[].type: attack / defend / buff / debuff / attack_block；pattern 为 moves 下标的循环序列"
+  },
+  "enemies": [
+    {
+      "id": "goblin",
+      "name": "哥布林劫掠者",
+      "hp": 40,
+      "shape": "fang",
+      "tint": "#7FA05A",
+      "scale": 1.12,
+      "flavor": "它先到，所以你最好先动手。",
+      "moves": [
+        { "name": "劈砍", "type": "attack", "damage": 8 },
+        { "name": "磨刀", "type": "buff", "status": "strength", "value": 2 },
+        { "name": "劈砍", "type": "attack", "damage": 8 }
+      ],
+      "pattern": [0, 1, 0]
+    },
+    {
+      "id": "gargoyle",
+      "name": "石像鬼",
+      "hp": 28,
+      "shape": "spike",
+      "tint": "#7C8494",
+      "scale": 0.86,
+      "flavor": "石头记得每一个曾在这里流血的人。",
+      "moves": [
+        { "name": "凿击", "type": "attack", "damage": 7 },
+        { "name": "石肤", "type": "defend", "block": 8 },
+        { "name": "重砸", "type": "attack", "damage": 11 }
+      ],
+      "pattern": [0, 1, 2]
+    },
+    {
+      "id": "bishop",
+      "name": "深渊主教",
+      "hp": 90,
+      "shape": "eye",
+      "tint": "#A05A7A",
+      "scale": 1.25,
+      "flavor": "祂从不眨眼。",
+      "moves": [
+        { "name": "暗蚀", "type": "attack", "damage": 10 },
+        { "name": "低语", "type": "debuff", "status": "weak", "value": 2 },
+        { "name": "献祭", "type": "attack", "damage": 14 },
+        { "name": "凝视", "type": "attack_block", "damage": 6, "block": 10 }
+      ],
+      "pattern": [0, 1, 2, 3, 0]
+    }
+  ],
+  "encounters": [
+    { "id": "f1", "title": "枯林小径", "enemies": ["goblin"] },
+    { "id": "f2", "title": "钟楼回廊", "enemies": ["gargoyle", "gargoyle"] },
+    { "id": "f3", "title": "无光礼拜堂", "enemies": ["bishop"], "boss": true }
+  ]
+}

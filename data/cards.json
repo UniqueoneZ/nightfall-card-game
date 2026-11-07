@@ -1,0 +1,132 @@
+{
+  "_meta": {
+    "version": 1,
+    "note": "效果字段: k=damage/block/draw/energy/heal/status/self_status；v=数值；hits=段数；status=状态名"
+  },
+  "cards": [
+    {
+      "id": "strike",
+      "name": "打击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "desc": "造成 6 点伤害。",
+      "effects": [{ "k": "damage", "v": 6 }]
+    },
+    {
+      "id": "defend",
+      "name": "防御",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "desc": "获得 5 点格挡。",
+      "effects": [{ "k": "block", "v": 5 }]
+    },
+    {
+      "id": "flurry",
+      "name": "连斩",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "desc": "造成 3 点伤害，两次。",
+      "effects": [{ "k": "damage", "v": 3, "hits": 2 }]
+    },
+    {
+      "id": "fireball",
+      "name": "烈焰",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "desc": "造成 12 点伤害。",
+      "effects": [{ "k": "damage", "v": 12 }]
+    },
+    {
+      "id": "empower",
+      "name": "蓄力",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "desc": "获得 2 点力量。",
+      "effects": [{ "k": "self_status", "status": "strength", "v": 2 }]
+    },
+    {
+      "id": "insight",
+      "name": "洞察",
+      "cost": 0,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "desc": "抽 2 张牌。",
+      "effects": [{ "k": "draw", "v": 2 }]
+    },
+    {
+      "id": "heavy_blow",
+      "name": "重击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "desc": "造成 14 点伤害。",
+      "effects": [{ "k": "damage", "v": 14 }]
+    },
+    {
+      "id": "iron_wall",
+      "name": "铁壁",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "desc": "获得 12 点格挡。",
+      "effects": [{ "k": "block", "v": 12 }]
+    },
+    {
+      "id": "poison_blade",
+      "name": "毒刃",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "desc": "造成 5 点伤害，施加 3 层中毒。",
+      "effects": [
+        { "k": "damage", "v": 5 },
+        { "k": "status", "status": "poison", "v": 3 }
+      ]
+    },
+    {
+      "id": "sunder",
+      "name": "破甲",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "desc": "施加 2 层易伤。",
+      "effects": [{ "k": "status", "status": "vulnerable", "v": 2 }]
+    },
+    {
+      "id": "elixir",
+      "name": "治愈药剂",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "rare",
+      "desc": "回复 8 点生命。消耗。",
+      "exhaust": true,
+      "effects": [{ "k": "heal", "v": 8 }]
+    },
+    {
+      "id": "cross_slash",
+      "name": "十字斩",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "rare",
+      "desc": "造成 8 点伤害，两次。",
+      "effects": [{ "k": "damage", "v": 8, "hits": 2 }]
+    }
+  ]
+}

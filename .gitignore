@@ -1,0 +1,6 @@
+*.import
+.DS_Store
+.godot/
+build/
+export/
+shot*.png

@@ -1,0 +1,157 @@
+{
+  "attack": {
+    "file": "attack.svg",
+    "source": "sword-wound.svg",
+    "author": "lorc"
+  },
+  "multi": {
+    "file": "multi.svg",
+    "source": "daggers.svg",
+    "author": "lorc"
+  },
+  "heavy": {
+    "file": "heavy.svg",
+    "source": "axe-swing.svg",
+    "author": "lorc"
+  },
+  "ranged": {
+    "file": "ranged.svg",
+    "source": "bow-arrow.svg",
+    "author": "delapouite"
+  },
+  "magic": {
+    "file": "magic.svg",
+    "source": "magic-swirl.svg",
+    "author": "lorc"
+  },
+  "fire": {
+    "file": "fire.svg",
+    "source": "fire-bomb.svg",
+    "author": "lorc"
+  },
+  "ice": {
+    "file": "ice.svg",
+    "source": "ice-bolt.svg",
+    "author": "lorc"
+  },
+  "lightning": {
+    "file": "lightning.svg",
+    "source": "lightning-arc.svg",
+    "author": "lorc"
+  },
+  "poison": {
+    "file": "poison.svg",
+    "source": "poison-bottle.svg",
+    "author": "lorc"
+  },
+  "bleed": {
+    "file": "bleed.svg",
+    "source": "bloody-sword.svg",
+    "author": "lorc"
+  },
+  "block": {
+    "file": "block.svg",
+    "source": "shield.svg",
+    "author": "sbed"
+  },
+  "thorns": {
+    "file": "thorns.svg",
+    "source": "spiked-armor.svg",
+    "author": "lorc"
+  },
+  "sunder": {
+    "file": "sunder.svg",
+    "source": "broken-shield.svg",
+    "author": "lorc"
+  },
+  "heal": {
+    "file": "heal.svg",
+    "source": "health-increase.svg",
+    "author": "sbed"
+  },
+  "regen": {
+    "file": "regen.svg",
+    "source": "regeneration.svg",
+    "author": "sbed"
+  },
+  "draw": {
+    "file": "draw.svg",
+    "source": "card-pick.svg",
+    "author": "faithtoken"
+  },
+  "energy": {
+    "file": "energy.svg",
+    "source": "crystal-shine.svg",
+    "author": "lorc"
+  },
+  "strength": {
+    "file": "strength.svg",
+    "source": "enrage.svg",
+    "author": "delapouite"
+  },
+  "weak": {
+    "file": "weak.svg",
+    "source": "broken-bone.svg",
+    "author": "lorc"
+  },
+  "vulnerable": {
+    "file": "vulnerable.svg",
+    "source": "eye-target.svg",
+    "author": "delapouite"
+  },
+  "curse": {
+    "file": "curse.svg",
+    "source": "cursed-star.svg",
+    "author": "lorc"
+  },
+  "holy": {
+    "file": "holy.svg",
+    "source": "holy-symbol.svg",
+    "author": "lorc"
+  },
+  "shadow": {
+    "file": "shadow.svg",
+    "source": "cloak-dagger.svg",
+    "author": "lorc"
+  },
+  "summon": {
+    "file": "summon.svg",
+    "source": "wolf-head.svg",
+    "author": "lorc"
+  },
+  "gold": {
+    "file": "gold.svg",
+    "source": "coins.svg",
+    "author": "delapouite"
+  },
+  "relic": {
+    "file": "relic.svg",
+    "source": "gem-chain.svg",
+    "author": "lorc"
+  },
+  "potion": {
+    "file": "potion.svg",
+    "source": "round-bottom-flask.svg",
+    "author": "lorc"
+  },
+  "scroll": {
+    "file": "scroll.svg",
+    "source": "scroll-unfurled.svg",
+    "author": "lorc"
+  },
+  "skull": {
+    "file": "skull.svg",
+    "source": "death-skull.svg",
+    "author": "sbed"
+  },
+  "moon": {
+    "file": "moon.svg",
+    "source": "evil-moon.svg",
+    "author": "lorc"
+  },
+  "sun": {
+    "file": "sun.svg",
+    "source": "sun.svg",
+    "author": "lorc"
+  }
+}
