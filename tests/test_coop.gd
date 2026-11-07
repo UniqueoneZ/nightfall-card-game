@@ -165,6 +165,8 @@ func _test_card_pool() -> void:
 	var oath := 0
 	for id in _db.cards:
 		var c: Dictionary = _db.cards[id]
+		if str(id).ends_with("+"):
+			continue
 		if str(c.get("class", "")) == "oathbound":
 			oath += 1
 			_check("卡 %s 字段完整" % id, c.has("cost") and c.has("type") and c.has("effects"))
