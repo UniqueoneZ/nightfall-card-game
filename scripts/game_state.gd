@@ -6,6 +6,18 @@ const START_DECK := [
 	"defend", "defend", "defend", "defend",
 	"flurry", "fireball", "empower", "insight",
 ]
+const CLASS_DECKS := {
+	"oathbound": [
+		"g_strike", "g_strike", "g_strike", "g_guard", "g_guard", "g_guard",
+		"g_bash", "g_iron", "g_riposte", "g_bulwark", "g_hold", "g_whet",
+	],
+	"emberwright": [
+		"e_ember", "e_ember", "e_ember", "e_ember", "e_cinder", "e_cinder",
+		"e_cinder", "e_kindling", "e_kindling", "e_guard", "e_guard", "e_sacrifice",
+	],
+}
+const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士"}
+
 const MAX_HP := 80
 const HEAL_BETWEEN := 20
 
@@ -21,12 +33,14 @@ var current_node: Dictionary = {}
 var relics: Array = []
 var last_stats: Dictionary = {}
 var battles_won := 0
+var player_class := "oathbound"
 var pending_relic := false
 var relic_choices: Array = []
 
-func new_run(p_seed: int = 0) -> void:
+func new_run(p_seed: int = 0, cls: String = "oathbound") -> void:
 	run_seed = p_seed if p_seed != 0 else int(Time.get_unix_time_from_system())
-	deck = START_DECK.duplicate()
+	player_class = cls if CLASS_DECKS.has(cls) else "oathbound"
+	deck = (CLASS_DECKS[player_class] as Array).duplicate()
 	hp = MAX_HP
 	max_hp = MAX_HP
 	gold = 80
@@ -151,6 +165,7 @@ func save_run() -> void:
 		"node": node_idx,
 		"map": map,
 		"battles": battles_won,
+		"class": player_class,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f == null:
@@ -181,6 +196,7 @@ func load_run() -> bool:
 	node_idx = int(parsed.get("node", -1))
 	map = parsed.get("map", [])
 	battles_won = int(parsed.get("battles", 0))
+	player_class = str(parsed.get("class", "oathbound"))
 	current_node = {}
 	if floor_idx >= 0 and floor_idx < map.size() and node_idx >= 0 and node_idx < map[floor_idx].size():
 		current_node = map[floor_idx][node_idx]

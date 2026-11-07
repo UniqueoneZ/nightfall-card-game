@@ -147,6 +147,7 @@ func _make_label(text: String, font_size: int, color: Color) -> Label:
 
 func _start_battle() -> void:
 	engine = Game.create_battle()
+	engine.player["name"] = str(Game.CLASS_NAMES.get(Game.player_class, "旅人"))
 	busy = false
 	targeting = -1
 	hint_label.text = DEFAULT_HINT

@@ -68,7 +68,7 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 		"hp": clampi(hp, 0, max_hp),
 		"max_hp": max_hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
 		"is_player": is_player,
 		"alive": hp > 0,
 	}
@@ -209,6 +209,13 @@ func _resolve_effect(eff: Dictionary, target: Dictionary) -> void:
 			_emit({"t": "energy", "value": energy})
 		"heal":
 			_heal(player, int(eff.get("v", 0)))
+		"self_damage":
+			player["hp"] = maxi(0, int(player["hp"]) - int(eff.get("v", 0)))
+			_emit({"t": "damage", "target": "player", "amount": int(eff.get("v", 0)), "blocked": 0, "hp": player["hp"], "source": "self"})
+			if int(player["hp"]) <= 0:
+				player["alive"] = false
+				_emit({"t": "death", "target": "player"})
+				_finish("defeat")
 		"status":
 			_apply_status(target, str(eff.get("status", "")), int(eff.get("v", 0)))
 		"self_status":
@@ -273,6 +280,14 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status], "delta": stacks})
 
 func _end_of_turn_tick(actor: Dictionary) -> void:
+	var burn := int(actor["statuses"].get("burn", 0))
+	if burn > 0:
+		actor["hp"] = maxi(0, int(actor["hp"]) - burn)
+		actor["statuses"]["burn"] = burn - 1
+		_emit({"t": "damage", "target": actor["id"], "amount": burn, "blocked": 0, "hp": actor["hp"], "source": "burn"})
+		if int(actor["hp"]) <= 0:
+			actor["alive"] = false
+			_emit({"t": "death", "target": actor["id"]})
 	var poison := int(actor["statuses"]["poison"])
 	if poison > 0:
 		actor["hp"] = maxi(0, int(actor["hp"]) - poison)

@@ -1272,6 +1272,614 @@
           "v": 5
         }
       ]
+    },
+    {
+      "id": "e_ember",
+      "name": "火种",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "造成 6 点伤害，施加 1 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "e_cinder",
+      "name": "灰烬",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "获得 6 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "e_kindling",
+      "name": "引燃",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "施加 3 层灼烧。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "e_sacrifice",
+      "name": "献祭",
+      "cost": 0,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "失去 3 点生命，+2 力量。",
+      "effects": [
+        {
+          "k": "self_damage",
+          "v": 3
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_guard",
+      "name": "余烬",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "获得 5 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "e_flare",
+      "name": "爆燃",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "emberwright",
+      "desc": "造成 10 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "e_scorch",
+      "name": "灼烧",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 5 点伤害，施加 2 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_fireball",
+      "name": "火球",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 12 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 12
+        }
+      ]
+    },
+    {
+      "id": "e_inferno",
+      "name": "烈焰风暴",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 8 点伤害，两次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8,
+          "hits": 2
+        }
+      ]
+    },
+    {
+      "id": "e_bloodrite",
+      "name": "血祭",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "失去 4 点生命，获得 10 点格挡。",
+      "effects": [
+        {
+          "k": "self_damage",
+          "v": 4
+        },
+        {
+          "k": "block",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "e_warmth",
+      "name": "余温",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "回复 4 点生命，获得 3 点格挡。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 4
+        },
+        {
+          "k": "block",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "e_blaze",
+      "name": "炽焰",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 9 点伤害，施加 3 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 9
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "e_ashwall",
+      "name": "灰烬护盾",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "获得 10 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "e_ignite",
+      "name": "引火",
+      "cost": 0,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "施加 2 层灼烧。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_furnace",
+      "name": "熔炉",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "+2 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_sparks",
+      "name": "火星四溅",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 4 点伤害，施加 2 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_combust",
+      "name": "自燃",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "造成 14 点伤害，失去 5 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 14
+        },
+        {
+          "k": "self_damage",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "e_rekindle",
+      "name": "复燃",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "回复 8 点生命。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "e_ashveil",
+      "name": "灰幕",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "获得 4 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 4
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "e_soot",
+      "name": "煤烟",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "emberwright",
+      "desc": "施加 1 层虚弱与 1 层灼烧。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "weak",
+          "v": 1
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "e_pyro",
+      "name": "炎爆",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "造成 22 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 22
+        }
+      ]
+    },
+    {
+      "id": "e_firewall",
+      "name": "火墙",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "获得 12 点格挡，+2 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_phoenix",
+      "name": "凤凰",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "回复 10 点生命，+2 力量。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 10
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "e_emberheart",
+      "name": "烬心",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "+3 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "e_conflagration",
+      "name": "焚城",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "造成 6 点伤害，三次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6,
+          "hits": 3
+        }
+      ]
+    },
+    {
+      "id": "e_bloodflame",
+      "name": "血焰",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "造成 8 点伤害，失去 3 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "self_damage",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "e_ashfall",
+      "name": "落灰",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "施加 4 层灼烧。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "e_immolate",
+      "name": "献身",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "emberwright",
+      "desc": "造成 18 点伤害，失去 8 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 18
+        },
+        {
+          "k": "self_damage",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "e_meteor",
+      "name": "陨星",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "emberwright",
+      "desc": "造成 26 点伤害，施加 4 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 26
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "e_pyre",
+      "name": "焚身",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "epic",
+      "class": "emberwright",
+      "desc": "+4 力量，失去 6 点生命。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 4
+        },
+        {
+          "k": "self_damage",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "e_eternalflame",
+      "name": "不灭之火",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "emberwright",
+      "desc": "获得 15 点格挡，+4 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 15
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "e_sun",
+      "name": "烈日",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "legendary",
+      "class": "emberwright",
+      "desc": "造成 30 点伤害，施加 6 层灼烧。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 30
+        },
+        {
+          "k": "status",
+          "status": "burn",
+          "v": 6
+        }
+      ]
     }
   ]
 }

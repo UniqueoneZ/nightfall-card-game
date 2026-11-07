@@ -60,7 +60,7 @@ func _make_boss(d: Dictionary) -> Dictionary:
 		"hp": int(d.get("hp", 120)),
 		"max_hp": int(d.get("hp", 120)),
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
 		"def": d,
 		"pattern_idx": 0,
 		"alive": true,
@@ -75,7 +75,7 @@ func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 		"hp": hp,
 		"max_hp": hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
 		"energy": ENERGY,
 		"hand": [],
 		"draw": deck,
@@ -330,6 +330,11 @@ func _resolve_effect(eff: Dictionary, caster: Dictionary, target: Dictionary) ->
 			caster["energy"] = int(caster["energy"]) + int(eff.get("v", 1))
 		"heal":
 			_heal(target, int(eff.get("v", 0)))
+		"self_damage":
+			caster["hp"] = maxi(0, int(caster["hp"]) - int(eff.get("v", 0)))
+			_emit({"t": "damage", "target": caster["id"], "amount": int(eff.get("v", 0)), "blocked": 0, "hp": caster["hp"], "source": "self"})
+			if int(caster["hp"]) <= 0:
+				_down(caster)
 		"status":
 			_apply_status(target, str(eff.get("status", "")), int(eff.get("v", 0)))
 		"self_status":
@@ -424,6 +429,13 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status]})
 
 func _tick_player_statuses(p: Dictionary) -> void:
+	var burn := int(p["statuses"].get("burn", 0))
+	if burn > 0:
+		p["hp"] = maxi(0, int(p["hp"]) - burn)
+		p["statuses"]["burn"] = burn - 1
+		_emit({"t": "damage", "target": p["id"], "amount": burn, "blocked": 0, "hp": p["hp"], "source": "burn"})
+		if int(p["hp"]) <= 0:
+			_down(p)
 	var poison := int(p["statuses"]["poison"])
 	if poison > 0:
 		p["hp"] = maxi(0, int(p["hp"]) - poison)
@@ -436,6 +448,11 @@ func _tick_player_statuses(p: Dictionary) -> void:
 			p["statuses"][s] = int(p["statuses"][s]) - 1
 
 func _tick_boss_statuses() -> void:
+	var burn := int(boss["statuses"].get("burn", 0))
+	if burn > 0:
+		boss["hp"] = maxi(0, int(boss["hp"]) - burn)
+		boss["statuses"]["burn"] = burn - 1
+		_emit({"t": "damage", "target": "boss", "amount": burn, "blocked": 0, "hp": boss["hp"], "source": "burn"})
 	var poison := int(boss["statuses"]["poison"])
 	if poison > 0:
 		boss["hp"] = maxi(0, int(boss["hp"]) - poison)

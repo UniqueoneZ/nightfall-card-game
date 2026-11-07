@@ -2,6 +2,7 @@ extends Control
 ## 主菜单：单人爬塔 / 双人合作
 
 var _tw: Tween
+var _selected_class := "oathbound"
 
 func _ready() -> void:
 	theme = UITheme.build()
@@ -34,8 +35,32 @@ func _ready() -> void:
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(sub)
 
+	var cls_row := HBoxContainer.new()
+	cls_row.position = Vector2(500, 336)
+	cls_row.size = Vector2(440, 44)
+	cls_row.add_theme_constant_override("separation", 12)
+	add_child(cls_row)
+	var cls_buttons: Array = []
+	for cid in ["oathbound", "emberwright"]:
+		var b := Button.new()
+		b.text = str(Game.CLASS_NAMES.get(cid, cid))
+		b.custom_minimum_size = Vector2(200, 42)
+		b.add_theme_font_size_override("font_size", 15)
+		b.pressed.connect(func() -> void:
+			_selected_class = cid
+			for i in cls_buttons.size():
+				var key: String = str(["oathbound", "emberwright"][i])
+				var on: bool = key == cid
+				cls_buttons[i].add_theme_stylebox_override("normal",
+					UITheme.button_box(Color(0.10, 0.12, 0.17, 0.95) if on else UITheme.PANEL,
+						UITheme.GOLD if on else UITheme.LINE, 2 if on else 1, 8))
+			)
+		cls_row.add_child(b)
+		cls_buttons.append(b)
+
 	var solo := _menu_button("单人爬塔", "独自深入，构筑卡组", Vector2(500, 400))
 	solo.pressed.connect(func() -> void:
+		Game.new_run(0, _selected_class)
 		get_tree().change_scene_to_file("res://scenes/map.tscn"))
 	add_child(solo)
 
