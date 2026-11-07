@@ -134,14 +134,43 @@ func _draw_intent(font: Font, tint: Color) -> void:
 
 func _draw_eye(c: Vector2, s: float, tint: Color) -> void:
 	var r := 54.0 * s
-	draw_circle(c, r, Color(tint.r, tint.g, tint.b, 0.20))
-	draw_arc(c, r, 0, TAU, 64, Color(tint.r, tint.g, tint.b, 0.95), 2.0, true)
-	draw_circle(c, r * 0.62, Color("#0A0C12"))
-	draw_circle(c, r * 0.34, Color(tint.r, tint.g, tint.b, 0.85))
-	draw_circle(c, r * 0.15, Color("#05060A"))
-	# 眼睑
-	draw_line(c + Vector2(-r, -r * 0.55), c + Vector2(0, -r * 1.05), Color(tint.r, tint.g, tint.b, 0.60), 2.0, true)
-	draw_line(c + Vector2(r, -r * 0.55), c + Vector2(0, -r * 1.05), Color(tint.r, tint.g, tint.b, 0.60), 2.0, true)
+	# 外层符文环（缓慢反向旋转）
+	for i in 12:
+		var a0 := _t * 0.35 + TAU * float(i) / 12.0
+		var p0 := c + Vector2(cos(a0), sin(a0)) * (r * 1.62)
+		var p1 := c + Vector2(cos(a0 + 0.12), sin(a0 + 0.12)) * (r * 1.62)
+		draw_line(p0, p1, Color(tint.r, tint.g, tint.b, 0.55), 2.0, true)
+	draw_arc(c, r * 1.62, 0, TAU, 72, Color(tint.r, tint.g, tint.b, 0.18), 1.0, true)
+
+	# 悬浮碎块
+	for i in 6:
+		var a := -_t * 0.6 + TAU * float(i) / 6.0
+		var orbit := r * (1.28 + 0.06 * sin(_t * 1.7 + i))
+		var sp := c + Vector2(cos(a), sin(a) * 1.25) * orbit
+		var sz := 3.0 + 1.6 * sin(_t * 2.3 + i * 1.7)
+		draw_circle(sp, sz, Color(tint.r, tint.g, tint.b, 0.75))
+
+	# 主体：分层球
+	draw_circle(c, r * 1.1, Color(0, 0, 0, 0.35))
+	draw_circle(c, r, Color(tint.r, tint.g, tint.b, 0.16))
+	draw_circle(c, r * 0.86, Color(tint.r * 0.55, tint.g * 0.55, tint.b * 0.55, 0.55))
+	draw_arc(c, r, 0, TAU, 72, Color(tint.r, tint.g, tint.b, 0.95), 2.0, true)
+	draw_arc(c, r * 0.86, -0.6, 2.2, 40, Color(1, 1, 1, 0.12), 3.0, true)
+
+	# 瞳孔与高光
+	draw_circle(c, r * 0.58, Color("#07080C"))
+	draw_circle(c, r * 0.36, Color(tint.r, tint.g, tint.b, 0.9))
+	var pulse := 0.55 + 0.45 * sin(_t * 2.4)
+	draw_circle(c, r * 0.18, Color(1, 1, 1, 0.25 * pulse))
+	draw_circle(c, r * 0.10, Color("#05060A"))
+	draw_circle(c - Vector2(r * 0.16, r * 0.18), r * 0.07, Color(1, 1, 1, 0.55))
+
+	# 角
+	for side in [-1.0, 1.0]:
+		var base := c + Vector2(side * r * 0.55, -r * 0.72)
+		var tip := c + Vector2(side * r * 0.95, -r * 1.5)
+		draw_line(base, tip, Color(tint.r, tint.g, tint.b, 0.85), 3.0, true)
+		draw_line(base, c + Vector2(side * r * 0.78, -r * 1.15), Color(1, 1, 1, 0.25), 1.0, true)
 
 func _draw_spike(c: Vector2, s: float, tint: Color) -> void:
 	var pts := PackedVector2Array()
