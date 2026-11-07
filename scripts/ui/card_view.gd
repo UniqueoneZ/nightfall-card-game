@@ -148,6 +148,22 @@ func _draw() -> void:
 	# 稀有度宝石
 	_draw_gem(Vector2(w - 16, 16), _rarity_color(str(card.get("rarity", "common"))))
 
+	# 内描边 + 四角装饰
+	var inner := StyleBoxFlat.new()
+	inner.bg_color = Color(0, 0, 0, 0)
+	inner.set_corner_radius_all(9)
+	inner.set_border_width_all(1)
+	inner.border_color = Color(accent.r, accent.g, accent.b, 0.25)
+	draw_style_box(inner, Rect2(4, 4, w - 8, h - 8))
+	for corner in [Vector2(8, 8), Vector2(w - 8, 8), Vector2(8, h - 8), Vector2(w - 8, h - 8)]:
+		var sx := 1.0 if corner.x < w * 0.5 else -1.0
+		var sy := 1.0 if corner.y < h * 0.5 else -1.0
+		draw_line(corner, corner + Vector2(7 * sx, 0), Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.45), 1.0, true)
+		draw_line(corner, corner + Vector2(0, 7 * sy), Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.45), 1.0, true)
+
+	# 名称下方分隔线
+	draw_line(Vector2(14, 124), Vector2(w - 14, 124), Color(accent.r, accent.g, accent.b, 0.35), 1.0)
+
 	if targeted:
 		var ring := StyleBoxFlat.new()
 		ring.bg_color = Color(0, 0, 0, 0)

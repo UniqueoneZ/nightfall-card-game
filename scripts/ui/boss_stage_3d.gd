@@ -16,6 +16,7 @@ var rim_light: OmniLight3D
 var tint := Color("#8A6FB0")
 var _t := 0.0
 var _flash := 0.0
+var _embers: Array = []
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -30,6 +31,11 @@ func _ready() -> void:
 	add_child(viewport)
 
 	_build_scene()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 99
+	for i in 26:
+		_embers.append({"x": rng.randf(), "y": rng.randf(), "s": 1.4 + rng.randf() * 2.6,
+			"ph": rng.randf() * TAU, "sp": 0.15 + rng.randf() * 0.35})
 
 	var rect := TextureRect.new()
 	rect.texture = viewport.get_texture()
@@ -196,3 +202,14 @@ func _process(delta: float) -> void:
 
 func flash() -> void:
 	_flash = 1.0
+
+func _draw() -> void:
+	# 环绕余烬
+	for e in _embers:
+		var ph: float = e["ph"]
+		var y := fmod(float(e["y"]) + _t * float(e["sp"]) * 0.18, 1.0)
+		var x := float(e["x"]) + sin(_t * 0.7 + ph) * 0.02
+		var px := size.x * x
+		var py := size.y * (1.0 - y)
+		var a := (0.28 + 0.22 * sin(_t * 2.0 + ph)) * (1.0 - y * 0.55)
+		draw_circle(Vector2(px, py), float(e["s"]), Color(1.0, 0.74, 0.42, a))
