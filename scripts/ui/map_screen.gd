@@ -14,6 +14,7 @@ var hint: Label
 func _ready() -> void:
 	theme = UITheme.build()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	Audio.start_bgm()
 	Game.ensure_run()
 	Game.last_stats = {}
 	_build_hud()

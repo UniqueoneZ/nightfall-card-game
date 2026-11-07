@@ -55,6 +55,7 @@ var last_seq := -1
 
 func _ready() -> void:
 	theme = UITheme.build()
+	Audio.start_bgm()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var args := OS.get_cmdline_user_args()
 	shot_mode = args.has("--shot")
@@ -539,6 +540,7 @@ func _animate(evs: Array) -> void:
 	for ev in evs:
 		match str(ev.get("t", "")):
 			"damage":
+				Audio.play("hit")
 				var pos := _anchor_of(str(ev.get("target", "")))
 				var col := UITheme.BLOOD
 				if str(ev.get("source", "")) == "poison":
@@ -552,14 +554,17 @@ func _animate(evs: Array) -> void:
 					_nudge_panel(str(ev.get("target", "")))
 				await _wait(0.18)
 			"coop":
+				Audio.play("card")
 				_float_text(_anchor_of("boss") + Vector2(0, -70), "合击 +%d" % int(ev.get("amount", 0)),
 					UITheme.GOLD, 22)
 				await _wait(0.22)
 			"block":
+				Audio.play("block")
 				_float_text(_anchor_of(str(ev.get("target", ""))) + Vector2(-40, -14),
 					"+%d 格挡" % int(ev.get("amount", 0)), UITheme.JADE, 14)
 				await _wait(0.10)
 			"heal":
+				Audio.play("heal")
 				_float_text(_anchor_of(str(ev.get("target", ""))), "+%d" % int(ev.get("amount", 0)),
 					Color("#7FD69A"), 24)
 				await _wait(0.16)
@@ -574,6 +579,7 @@ func _animate(evs: Array) -> void:
 					str(ev.get("name", "")), UITheme.GOLD, 15)
 				await _wait(0.30)
 			"card_played":
+				Audio.play("card")
 				await _wait(0.08)
 			"round_start":
 				await _wait(0.10)
@@ -629,10 +635,12 @@ func _wait(sec: float) -> void:
 func _check_outcome() -> void:
 	if engine.phase == "victory":
 		await _wait(0.7)
+		Audio.play("win")
 		_show_overlay("守卫陨落", "你们击败了双子守卫。\n造成 %d 伤害 · 合击 %d 次" % [
 			int(engine.stats["damage"]), int(engine.stats["coop_hits"])], "返回主菜单", _leave_table)
 	elif engine.phase == "defeat":
 		await _wait(0.7)
+		Audio.play("lose")
 		_show_overlay("双双倒下", "无光王座之下，无人应答。", "返回主菜单", _leave_table)
 
 func _show_overlay(title: String, sub: String, btn: String, cb: Callable) -> void:

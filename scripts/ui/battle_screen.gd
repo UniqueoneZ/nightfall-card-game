@@ -31,6 +31,7 @@ var enc_index := 0
 
 func _ready() -> void:
 	theme = UITheme.build()
+	Audio.start_bgm()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var args := OS.get_cmdline_user_args()
 	shot_mode = args.has("--shot")
@@ -304,6 +305,7 @@ func _animate(evs: Array) -> void:
 	for ev in evs:
 		match str(ev.get("t", "")):
 			"damage":
+				Audio.play("hit")
 				var pos := _anchor_of(str(ev.get("target", "")))
 				var col := UITheme.BLOOD
 				if str(ev.get("source", "")) == "poison":
@@ -318,9 +320,11 @@ func _animate(evs: Array) -> void:
 					_float_text(pos + Vector2(46, -22), "格挡 %d" % int(ev.get("blocked", 0)), UITheme.JADE, 14)
 				await _wait(0.20)
 			"heal":
+				Audio.play("heal")
 				_float_text(_anchor_of("player"), "+%d" % int(ev.get("amount", 0)), Color("#7FD69A"), 24)
 				await _wait(0.18)
 			"block":
+				Audio.play("block")
 				_float_text(_anchor_of(str(ev.get("target", ""))) + Vector2(-44, -12),
 					"+%d 格挡" % int(ev.get("amount", 0)), UITheme.JADE, 14)
 				await _wait(0.10)
@@ -331,6 +335,7 @@ func _animate(evs: Array) -> void:
 						str(ev.get("intent", {}).get("name", "")), UITheme.GOLD, 14)
 				await _wait(0.28)
 			"card_played":
+				Audio.play("card")
 				await _wait(0.10)
 			_:
 				pass
@@ -374,9 +379,11 @@ func _wait(sec: float) -> void:
 
 func _check_outcome() -> void:
 	if engine.phase == "victory":
+		Audio.play("win")
 		await _wait(0.7)
 		_on_victory()
 	elif engine.phase == "defeat":
+		Audio.play("lose")
 		await _wait(0.7)
 		_on_defeat()
 

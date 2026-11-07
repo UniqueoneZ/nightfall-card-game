@@ -7,6 +7,7 @@ var _selected_class := "oathbound"
 func _ready() -> void:
 	theme = UITheme.build()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
+	Audio.start_bgm()
 
 	# 深链：Web 版可用 ?mode=coop 直接进入双人合作
 	if OS.has_feature("web"):
