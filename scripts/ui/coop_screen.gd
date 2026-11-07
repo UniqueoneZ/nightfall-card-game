@@ -7,8 +7,8 @@ const HAND_Y := 640.0
 const DEFAULT_HINT := "点卡出牌 · 掩护/鼓舞类卡牌可选队友 · 空格结束回合"
 
 const DECKS := [
-	["strike", "strike", "strike", "strike", "defend", "defend", "defend",
-	 "cover", "cover", "heavy_blow", "iron_wall", "twin_strike"],
+	["g_strike", "g_strike", "g_strike", "g_strike", "g_guard", "g_guard", "g_guard",
+	 "g_bash", "g_iron", "g_riposte", "g_bulwark", "cover"],
 	["strike", "strike", "strike", "defend", "defend",
 	 "cover", "rally", "flurry", "poison_blade", "fireball", "insight", "revive_call"],
 ]

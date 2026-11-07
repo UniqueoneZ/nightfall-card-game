@@ -259,6 +259,1019 @@
           "v": 12
         }
       ]
+    },
+    {
+      "id": "g_strike",
+      "name": "誓约斩",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "造成 6 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "g_guard",
+      "name": "守势",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "获得 5 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "g_bash",
+      "name": "盾击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "造成等同于当前格挡的伤害。",
+      "effects": [
+        {
+          "k": "damage_by_block",
+          "mult": 1,
+          "add": 0,
+          "hits": 1
+        }
+      ]
+    },
+    {
+      "id": "g_iron",
+      "name": "铁誓",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "获得 10 点格挡，+2 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_riposte",
+      "name": "反击姿态",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "+3 反击。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "g_bulwark",
+      "name": "铁壁",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "oathbound",
+      "desc": "获得 14 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 14
+        }
+      ]
+    },
+    {
+      "id": "g_hold",
+      "name": "坚守",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 8 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "g_shieldwall",
+      "name": "盾墙",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 12 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        }
+      ]
+    },
+    {
+      "id": "g_heavy",
+      "name": "重斩",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成 10 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "g_sunder",
+      "name": "破防",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "施加 2 层易伤。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_warcry",
+      "name": "战吼",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "+2 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_slam",
+      "name": "盾牌猛击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成等同于格挡的伤害，额外 +4。",
+      "effects": [
+        {
+          "k": "damage_by_block",
+          "mult": 1,
+          "add": 4,
+          "hits": 1
+        }
+      ]
+    },
+    {
+      "id": "g_counter",
+      "name": "格挡反击",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 6 点格挡，+2 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_whet",
+      "name": "磨砺",
+      "cost": 0,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "抽 1 张牌，+1 力量。",
+      "effects": [
+        {
+          "k": "draw",
+          "v": 1
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_resolve",
+      "name": "坚毅",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 5 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_charge",
+      "name": "冲撞",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成 7 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 7
+        }
+      ]
+    },
+    {
+      "id": "g_armor",
+      "name": "铁甲",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "+2 壁垒（回合开始保留一半格挡）。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "retain",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_brace",
+      "name": "蓄势",
+      "cost": 0,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 4 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "g_cleave",
+      "name": "削甲",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成 5 点伤害，施加 1 层易伤。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_storm",
+      "name": "反击风暴",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成 6 点伤害，+4 反击。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "g_holdup",
+      "name": "坚守阵地",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 10 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_oathbond",
+      "name": "誓约",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "+1 力量，+2 反击。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 1
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_press",
+      "name": "盾压",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "造成 6 点伤害，施加 1 层虚弱。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        },
+        {
+          "k": "status",
+          "status": "weak",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_copper",
+      "name": "铜墙",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "oathbound",
+      "desc": "获得 10 点格挡，回复 2 点生命。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        },
+        {
+          "k": "heal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_bulwarkcounter",
+      "name": "铁壁反击",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 10 点格挡，+3 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "g_greatslam",
+      "name": "盾击猛击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成等同于格挡的伤害，额外 +6。",
+      "effects": [
+        {
+          "k": "damage_by_block",
+          "mult": 1,
+          "add": 6,
+          "hits": 1
+        }
+      ]
+    },
+    {
+      "id": "g_unbroken",
+      "name": "不破",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "+1 壁垒。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "retain",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_thornmail",
+      "name": "荆棘之甲",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "+4 反击。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "g_watch",
+      "name": "守望",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 8 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "g_armorbreak",
+      "name": "破甲重击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成 8 点伤害，施加 2 层易伤。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_ironwill",
+      "name": "钢铁意志",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 6 点格挡，回复 3 点生命。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "heal",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "g_chain",
+      "name": "反击链",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成 4 点伤害，+2 反击。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_crush",
+      "name": "沉重打击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成 16 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 16
+        }
+      ]
+    },
+    {
+      "id": "g_fortress",
+      "name": "堡垒",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 15 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 15
+        }
+      ]
+    },
+    {
+      "id": "g_shieldriposte",
+      "name": "盾反",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 4 点格挡，+2 反击，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 4
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_spirit",
+      "name": "战意",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "+2 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_immovable",
+      "name": "坚不可摧",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 12 点格挡，+2 壁垒。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        },
+        {
+          "k": "self_status",
+          "status": "retain",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_aegis",
+      "name": "圣盾",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "获得 12 点格挡，+2 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_countermeasure",
+      "name": "反制",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "施加 1 层虚弱与 1 层易伤。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "weak",
+          "v": 1
+        },
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "g_doubleslam",
+      "name": "双盾击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成 8 点伤害，两次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "damage",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "g_ironblood",
+      "name": "铁血",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "+3 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "g_deathvow",
+      "name": "誓死",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "oathbound",
+      "desc": "造成 12 点伤害，回复 4 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 12
+        },
+        {
+          "k": "heal",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "g_mountain",
+      "name": "不动如山",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "获得 20 点格挡，+2 壁垒。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 20
+        },
+        {
+          "k": "self_status",
+          "status": "retain",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_thorncrown",
+      "name": "荆棘王冠",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "+6 反击。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "g_siege",
+      "name": "破城",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "造成 22 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 22
+        }
+      ]
+    },
+    {
+      "id": "g_ram",
+      "name": "盾墙冲锋",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "造成等同于格挡的伤害，两次。",
+      "effects": [
+        {
+          "k": "damage_by_block",
+          "mult": 1,
+          "add": 0,
+          "hits": 2
+        }
+      ]
+    },
+    {
+      "id": "g_steel",
+      "name": "钢铁壁垒",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "获得 25 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 25
+        }
+      ]
+    },
+    {
+      "id": "g_ripostemaster",
+      "name": "反击大师",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "+4 反击，+2 力量。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 4
+        },
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_oathshield",
+      "name": "誓约之盾",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "获得 15 点格挡，回复 5 点生命。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 15
+        },
+        {
+          "k": "heal",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "g_giantslam",
+      "name": "巨盾猛击",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "造成等同于格挡的伤害，额外 +10。",
+      "effects": [
+        {
+          "k": "damage_by_block",
+          "mult": 1,
+          "add": 10,
+          "hits": 1
+        }
+      ]
+    },
+    {
+      "id": "g_bloodwar",
+      "name": "血战",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "oathbound",
+      "desc": "造成 10 点伤害，回复 5 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        },
+        {
+          "k": "heal",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "g_eternal",
+      "name": "永誓",
+      "cost": 3,
+      "type": "power",
+      "target": "none",
+      "rarity": "legendary",
+      "class": "oathbound",
+      "desc": "+8 反击，+2 壁垒。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 8
+        },
+        {
+          "k": "self_status",
+          "status": "retain",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "g_judgment",
+      "name": "天罚",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "legendary",
+      "class": "oathbound",
+      "desc": "造成 32 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 32
+        }
+      ]
+    },
+    {
+      "id": "g_city",
+      "name": "不动之城",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "legendary",
+      "class": "oathbound",
+      "desc": "获得 30 点格挡，+5 反击。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 30
+        },
+        {
+          "k": "self_status",
+          "status": "thorns",
+          "v": 5
+        }
+      ]
     }
   ]
 }

@@ -21,6 +21,10 @@ func _initialize() -> void:
 	_test_card_revive()
 	_test_defeat_when_all_down()
 	_test_victory()
+	_test_thorns()
+	_test_retain()
+	_test_damage_by_block()
+	_test_card_pool()
 	_test_fuzz()
 	print("\n===== %d passed, %d failed =====" % [_passed, _failed])
 	quit(0 if _failed == 0 else 1)
@@ -128,6 +132,41 @@ func _test_victory() -> void:
 	e.players[0]["energy"] = 3
 	e.play_card(0, 0, "")
 	_check("击杀 Boss 判胜", e.phase == "victory")
+
+func _test_thorns() -> void:
+	var e := _engine()
+	e.players[0]["statuses"]["thorns"] = 4
+	e.boss["intent"] = {"type": "attack", "damage": 9, "preview": 9}
+	var boss_hp := int(e.boss["hp"])
+	e.end_round()
+	_check("反击对攻击者造成 4 点伤害", int(e.boss["hp"]) == boss_hp - 4)
+
+func _test_retain() -> void:
+	var e := _engine()
+	e.players[0]["statuses"]["retain"] = 1
+	e.players[0]["block"] = 10
+	e.boss["intent"] = {"type": "wait", "name": "静观"}
+	e.end_round()
+	_check("壁垒保留一半格挡(5)", int(e.players[0]["block"]) == 5)
+
+func _test_damage_by_block() -> void:
+	var e := _engine()
+	e.players[0]["hand"] = ["g_bash"]
+	e.players[0]["energy"] = 3
+	e.players[0]["block"] = 12
+	e.boss["intent"] = {"type": "wait", "name": "静观"}
+	var hp := int(e.boss["hp"])
+	e.play_card(0, 0, "")
+	_check("盾击按格挡 12 点结算", hp - int(e.boss["hp"]) == 12)
+
+func _test_card_pool() -> void:
+	var oath := 0
+	for id in _db.cards:
+		var c: Dictionary = _db.cards[id]
+		if str(c.get("class", "")) == "oathbound":
+			oath += 1
+			_check("卡 %s 字段完整" % id, c.has("cost") and c.has("type") and c.has("effects"))
+	_check("守誓者共 54 张", oath == 54)
 
 func _test_fuzz() -> void:
 	for seed in range(12):

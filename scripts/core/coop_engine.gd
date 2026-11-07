@@ -43,7 +43,7 @@ func setup(card_db: Dictionary, decks: Array, boss_def: Dictionary, p_seed: int 
 		"hp": int(boss_def.get("hp", 120)),
 		"max_hp": int(boss_def.get("hp", 120)),
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
 		"def": boss_def,
 		"pattern_idx": 0,
 		"alive": true,
@@ -58,7 +58,7 @@ func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 		"hp": hp,
 		"max_hp": hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
 		"energy": ENERGY,
 		"hand": [],
 		"draw": deck,
@@ -84,7 +84,10 @@ func start_round() -> void:
 			if int(p["revive_in"]) <= 0:
 				_revive(p, int(p["max_hp"]) * 0.3)
 			continue
-		p["block"] = 0
+		if int(p["statuses"]["retain"]) > 0:
+			p["block"] = int(p["block"]) / 2
+		else:
+			p["block"] = 0
 		p["energy"] = ENERGY
 		p["attacked"] = false
 		p["discard"].append_array(p["hand"])
@@ -222,6 +225,16 @@ func _resolve_effect(eff: Dictionary, caster: Dictionary, target: Dictionary) ->
 				_attack(caster, target, int(eff.get("v", 0)))
 		"block":
 			_add_block(target, int(eff.get("v", 0)))
+		"self_block":
+			_add_block(caster, int(eff.get("v", 0)))
+		"damage_by_block":
+			var mult := float(eff.get("mult", 1.0))
+			var add := int(eff.get("add", 0))
+			for i in int(eff.get("hits", 1)):
+				if target.has("alive") and not bool(target["alive"]):
+					break
+				var raw := int(floor(float(caster["block"]) * mult)) + add
+				_attack(caster, target, raw)
 		"draw":
 			_draw(caster, int(eff.get("v", 1)))
 		"energy":
@@ -265,6 +278,18 @@ func _attack(src: Dictionary, tgt: Dictionary, base: int, ignore_coop_bonus: boo
 			src["dmg_round"] = int(src["dmg_round"]) + hp_loss
 
 	_emit({"t": "damage", "target": tgt["id"], "amount": dmg, "blocked": blocked, "hp": tgt["hp"]})
+
+	# 反击：受到攻击时对攻击者造成伤害（无视格挡）
+	var th := int(tgt["statuses"].get("thorns", 0))
+	if th > 0 and str(src.get("id", "")) != str(tgt.get("id", "")) and src.has("hp"):
+		src["hp"] = maxi(0, int(src["hp"]) - th)
+		_emit({"t": "damage", "target": src["id"], "amount": th, "blocked": 0, "hp": src["hp"], "source": "thorns"})
+		if int(src["hp"]) <= 0:
+			if str(src.get("id", "")) == "boss":
+				src["alive"] = false
+				_emit({"t": "death", "target": "boss"})
+			else:
+				_down(src)
 
 	if int(tgt["hp"]) <= 0:
 		if tgt.get("id", "") == "boss":

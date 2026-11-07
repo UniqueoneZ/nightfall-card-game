@@ -68,7 +68,7 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 		"hp": clampi(hp, 0, max_hp),
 		"max_hp": max_hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
 		"is_player": is_player,
 		"alive": hp > 0,
 	}
@@ -78,7 +78,10 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 func start_player_turn() -> void:
 	phase = "player"
 	turn += 1
-	player["block"] = 0
+	if int(player["statuses"]["retain"]) > 0:
+		player["block"] = int(player["block"]) / 2
+	else:
+		player["block"] = 0
 	energy = max_energy
 	_emit({"t": "turn_start", "turn": turn})
 	_draw(HAND_DRAW)
@@ -190,6 +193,15 @@ func _resolve_effect(eff: Dictionary, target: Dictionary) -> void:
 				_attack(player, target, int(eff.get("v", 0)))
 		"block":
 			_add_block(player, int(eff.get("v", 0)))
+		"self_block":
+			_add_block(player, int(eff.get("v", 0)))
+		"damage_by_block":
+			var mult := float(eff.get("mult", 1.0))
+			var add := int(eff.get("add", 0))
+			for i in int(eff.get("hits", 1)):
+				if not target["alive"]:
+					break
+				_attack(player, target, int(floor(float(player["block"]) * mult)) + add)
 		"draw":
 			_draw(int(eff.get("v", 1)))
 		"energy":
@@ -227,6 +239,15 @@ func _attack(src: Dictionary, tgt: Dictionary, base: int) -> void:
 		stats["damage_taken"] += hp_loss
 
 	_emit({"t": "damage", "target": tgt["id"], "amount": dmg, "blocked": blocked, "hp": tgt["hp"]})
+
+	var th := int(tgt["statuses"].get("thorns", 0))
+	if th > 0 and str(src.get("id", "")) != str(tgt.get("id", "")) and src.has("hp"):
+		src["hp"] = maxi(0, int(src["hp"]) - th)
+		_emit({"t": "damage", "target": src["id"], "amount": th, "blocked": 0, "hp": src["hp"], "source": "thorns"})
+		if int(src["hp"]) <= 0:
+			src["alive"] = false
+			_emit({"t": "death", "target": src["id"]})
+
 	if int(tgt["hp"]) <= 0:
 		tgt["alive"] = false
 		_emit({"t": "death", "target": tgt["id"]})
