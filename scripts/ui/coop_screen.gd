@@ -69,7 +69,7 @@ func _ready() -> void:
 			if mr != null:
 				room_code = str(mr.get_string(1)).to_upper()
 	if online and server_url == "":
-		server_url = "ws://127.0.0.1:8787"
+		server_url = str(DB.net.get("relay", "ws://127.0.0.1:8787"))
 
 	_build()
 	if online:

@@ -4,6 +4,7 @@ extends Node
 var cards: Dictionary = {}
 var enemies: Dictionary = {}
 var encounters: Array = []
+var net: Dictionary = {}
 var load_error: String = ""
 
 func _ready() -> void:
@@ -12,6 +13,8 @@ func _ready() -> void:
 func reload() -> void:
 	var c := _read_json("res://data/cards.json")
 	var e := _read_json("res://data/enemies.json")
+	var n := _read_json("res://data/net.json")
+	net = n if not n.is_empty() else {}
 	if c.is_empty() or e.is_empty():
 		return
 	cards.clear()
