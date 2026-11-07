@@ -298,6 +298,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		elif event.keycode == KEY_ESCAPE:
 			_cancel_targeting()
+		elif event.keycode == KEY_H:
+			_toggle_glossary()
 
 # ---------------------------------------------------------------- 演出
 
@@ -542,3 +544,62 @@ func _autoplay_battle() -> void:
 		await _wait(0.85)
 		while busy:
 			await _wait(0.1)
+
+const GLOSSARY := [
+	["力量", "每段攻击 +N 点伤害"],
+	["易伤", "受到的伤害 ×1.5，回合末减 1 层"],
+	["虚弱", "造成的伤害 ×0.75，回合末减 1 层"],
+	["中毒", "回合末损失 N 点生命（无视格挡），然后减 1 层"],
+	["灼烧", "回合末损失 N 点生命（无视格挡），然后减 1 层"],
+	["反击", "每次被攻击时，对攻击者造成 N 点伤害（无视格挡）"],
+	["壁垒", "回合开始时保留一半格挡，而不是清零"],
+	["圣印", "回合结束时对随机敌人造成 N×2 伤害，并减 1 层"],
+	["溢流", "过量治疗转化为等量格挡"],
+	["兽群", "回合结束时每层对随机敌人造成 2 点伤害"],
+	["标记", "受击时额外受到 N 点伤害，触发后减 1 层"],
+	["连环", "本回合每打出过一张攻击牌，此牌伤害 +N"],
+]
+
+var glossary: Control = null
+
+func _toggle_glossary() -> void:
+	if glossary != null and is_instance_valid(glossary):
+		glossary.queue_free()
+		glossary = null
+		return
+	glossary = Control.new()
+	glossary.set_anchors_preset(Control.PRESET_FULL_RECT)
+	glossary.mouse_filter = Control.MOUSE_FILTER_STOP
+	glossary.z_index = 990
+	add_child(glossary)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.82)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	glossary.add_child(dim)
+	var panel := Panel.new()
+	panel.position = Vector2(380, 110)
+	panel.size = Vector2(680, 660)
+	panel.add_theme_stylebox_override("panel",
+		UITheme.panel_box(Color(0.07, 0.085, 0.12, 0.98), UITheme.GOLD_DIM, 16, 2))
+	glossary.add_child(panel)
+	var t := _make_label("关键词说明", 26, UITheme.GOLD)
+	t.position = Vector2(0, 22)
+	t.size = Vector2(680, 36)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	panel.add_child(t)
+	var y := 76.0
+	for row in GLOSSARY:
+		var k := _make_label(str(row[0]), 16, UITheme.TEXT)
+		k.position = Vector2(36, y)
+		k.size = Vector2(110, 24)
+		panel.add_child(k)
+		var d := _make_label(str(row[1]), 14, UITheme.TEXT_DIM)
+		d.position = Vector2(150, y + 2)
+		d.size = Vector2(500, 24)
+		panel.add_child(d)
+		y += 46.0
+	var hint := _make_label("按 H 关闭", 13, Color(0.45, 0.49, 0.57))
+	hint.position = Vector2(0, 620)
+	hint.size = Vector2(680, 24)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	panel.add_child(hint)
