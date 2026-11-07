@@ -144,29 +144,35 @@ func _show_rest() -> void:
 	])
 
 func _show_event() -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.seed = Game.run_seed + Game.floor_idx * 31 + Game.node_idx
-	var flavors := [
-		"路边躺着一个破旧的旅行箱。",
-		"一个无名的祭坛，石面上刻着看不懂的字。",
-		"一具枯骨，手里还攥着什么东西。",
-	]
-	var flavor: String = str(flavors[rng.randi_range(0, 2)])
-	_open_modal("事件", flavor, [
-		{"text": "搜刮（+40 金币）", "cb": func() -> void:
-			Game.gold += 40
-			Game.mark_visited()
-			_refresh()},
-		{"text": "祈祷（回复 20 生命）", "cb": func() -> void:
-			Game.heal(20)
-			Game.mark_visited()
-			_refresh()},
-		{"text": "带走卡牌", "cb": func() -> void:
-			var pool := ["heavy_blow", "iron_wall", "poison_blade", "sunder", "cross_slash", "elixir"]
-			Game.add_card(str(pool[rng.randi_range(0, pool.size() - 1)]))
-			Game.mark_visited()
-			_refresh()},
-	])
+	var ev: Dictionary = Events.pick(Game.run_seed + Game.floor_idx * 31 + Game.node_idx)
+	var choices: Array = []
+	for c in ev.get("choices", []):
+		var fx: Dictionary = c.get("fx", {})
+		choices.append({"text": str(c.get("label", "")), "cb": _make_event_cb(fx)})
+	_open_modal(str(ev.get("title", "事件")), str(ev.get("text", "")), choices)
+
+func _make_event_cb(fx: Dictionary) -> Callable:
+	return func() -> void:
+		if fx.has("gold"):
+			Game.gold += int(fx["gold"])
+		if fx.has("heal"):
+			Game.heal(int(fx["heal"]))
+		if fx.has("damage"):
+			Game.hp = maxi(1, Game.hp - int(fx["damage"]))
+		if fx.has("card"):
+			var pool := ["heavy_blow", "iron_wall", "poison_blade", "sunder", "cross_slash", "elixir", "blaze", "venom"]
+			Game.add_card(str(pool[randi() % pool.size()]))
+		if fx.has("upgrade"):
+			_show_upgrade()
+			return
+		if fx.has("gamble"):
+			var bet := int(fx["gamble"])
+			if Game.gold >= bet:
+				Game.gold -= bet
+				if randi() % 2 == 0:
+					Game.gold += 60
+		Game.mark_visited()
+		_refresh()
 
 func _show_shop() -> void:
 	var rng := RandomNumberGenerator.new()
@@ -188,12 +194,63 @@ func _show_shop() -> void:
 					Game.add_card(str(cid))
 				_refresh(),
 		})
+	choices.append({"text": "移除一张卡牌（75 金币）", "cb": func() -> void:
+		if Game.gold >= 75:
+			_show_remove()
+		else:
+			_refresh()})
 	choices.append({"text": "离开", "cb": func() -> void:
 		Game.mark_visited()
 		_refresh()})
 	_open_modal("商店", "金币 %d" % Game.gold, choices)
 
 # ---------------------------------------------------------------- 模态框
+
+func _show_remove() -> void:
+	var uniq: Array = []
+	for c in Game.deck:
+		var id := str(c)
+		if not uniq.has(id):
+			uniq.append(id)
+	_show_card_grid("移除一张卡牌（75 金币）", uniq, func(id: String) -> void:
+		Game.gold -= 75
+		Game.deck.erase(id)
+		Game.mark_visited()
+		_refresh())
+
+func _show_card_grid(title: String, ids: Array, cb: Callable) -> void:
+	_close_modal()
+	modal = Control.new()
+	modal.set_anchors_preset(Control.PRESET_FULL_RECT)
+	modal.mouse_filter = Control.MOUSE_FILTER_STOP
+	modal.z_index = 100
+	add_child(modal)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.78)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	modal.add_child(dim)
+	var panel := Panel.new()
+	panel.position = Vector2(300, 140)
+	panel.size = Vector2(840, 560)
+	panel.add_theme_stylebox_override("panel",
+		UITheme.panel_box(Color(0.07, 0.085, 0.12, 0.98), UITheme.GOLD_DIM, 16, 2))
+	modal.add_child(panel)
+	var t := _label(title, 26, UITheme.GOLD)
+	t.position = Vector2(0, 24)
+	t.size = Vector2(840, 36)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	panel.add_child(t)
+	var cols := 3
+	for i in ids.size():
+		var id := str(ids[i])
+		var def := DB.card(id)
+		var b := Button.new()
+		b.size = Vector2(250, 56)
+		b.position = Vector2(30 + (i % cols) * 262, 84 + (i / cols) * 68)
+		b.text = "%s（%d 费）" % [str(def.get("name", id)), int(def.get("cost", 0))]
+		b.add_theme_font_size_override("font_size", 13)
+		b.pressed.connect(func() -> void: cb.call(id))
+		panel.add_child(b)
 
 func _show_upgrade() -> void:
 	var uniq: Array = []
