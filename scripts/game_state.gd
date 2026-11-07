@@ -8,7 +8,7 @@ const START_DECK := [
 ]
 const CLASS_DECKS := {
 	"oathbound": [
-		"g_strike", "g_strike", "g_strike", "g_guard", "g_guard", "g_guard",
+		"g_strike", "g_strike", "g_strike", "g_guard", "g_guard", "g_heavy",
 		"g_bash", "g_iron", "g_riposte", "g_bulwark", "g_hold", "g_whet",
 	],
 	"emberwright": [
@@ -25,7 +25,7 @@ const CLASS_DECKS := {
 	],
 	"shadowblade": [
 		"s_dagger", "s_dagger", "s_dagger", "s_thrust", "s_thrust", "s_dodge",
-		"s_dodge", "s_venom", "s_combo", "s_combo", "s_shadowstep", "s_light",
+		"s_double", "s_venom", "s_combo", "s_combo", "s_poisonblade", "s_light",
 	],
 }
 const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃", "hierophant": "圣祷者", "beastcaller": "驭兽人"}

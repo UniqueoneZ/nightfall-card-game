@@ -16,7 +16,7 @@ func _initialize() -> void:
 	_check("圣印 +1", int(e.player["statuses"]["seal"]) == 1)
 	var before := int(e.enemies[0]["hp"])
 	e.end_turn()
-	_check("圣印回合末造成 4 点", before - int(e.enemies[0]["hp"]) == 4)
+	_check("圣印回合末造成 2 点", before - int(e.enemies[0]["hp"]) == 2)
 
 	# 溢流：过量治疗转格挡
 	var e2 := BattleEngine.new()

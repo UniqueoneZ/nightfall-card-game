@@ -447,10 +447,10 @@ func _tick_player_statuses(p: Dictionary) -> void:
 	var beast := int(p["statuses"].get("beast", 0))
 	if beast > 0 and boss["alive"]:
 		for i in beast:
-			_attack(p, boss, 4)
+			_attack(p, boss, 2)
 	var seal := int(p["statuses"].get("seal", 0))
 	if seal > 0 and boss["alive"]:
-		_attack(p, boss, seal * 4)
+		_attack(p, boss, seal * 2)
 	var burn := int(p["statuses"].get("burn", 0))
 	if burn > 0:
 		p["hp"] = maxi(0, int(p["hp"]) - burn)

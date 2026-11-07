@@ -15,7 +15,7 @@ func _initialize() -> void:
 	_check("召唤 1 只影狼", int(e.player["statuses"]["beast"]) == 1)
 	var before := int(e.enemies[0]["hp"])
 	e.end_turn()
-	_check("影狼回合末造成 4 点", before - int(e.enemies[0]["hp"]) == 4)
+	_check("影狼回合末造成 2 点", before - int(e.enemies[0]["hp"]) == 2)
 
 	var e2 := BattleEngine.new()
 	e2.setup(["b_strike","b_mark","b_guard","b_shot","b_pack"], 80, 80, [db.enemy("goblin")], db.cards, 10)
