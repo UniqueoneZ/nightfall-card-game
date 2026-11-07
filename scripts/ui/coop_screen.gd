@@ -159,6 +159,9 @@ func _build() -> void:
 		add_child(hs)
 		hotspots.append(hs)
 
+	p_views[0].set_class_art("oathbound")
+	p_views[1].set_class_art("shadowblade")
+
 	for i in 2:
 		var b := Button.new()
 		b.text = "玩家 %d" % (i + 1)

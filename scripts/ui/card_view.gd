@@ -86,7 +86,7 @@ func _pick_icon(c: Dictionary) -> Texture2D:
 		var cls := str(c.get("class", ""))
 		var pool: Array = CLASS_ICONS.get(cls, [])
 		if not pool.is_empty():
-			var h := abs(str(c.get("id", "")).hash())
+			var h: int = absi(str(c.get("id", "")).hash())
 			key = str(pool[h % pool.size()])
 		else:
 			key = "attack"

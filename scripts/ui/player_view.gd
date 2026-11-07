@@ -10,6 +10,19 @@ var energy := 0
 var max_energy := 3
 var downed := false
 var active := false
+var art: Texture2D = null
+
+const CLASS_ART := {
+	"oathbound": "paladin_landmark", "hierophant": "paladin_landmark",
+	"emberwright": "warlock_landmark", "beastcaller": "warlock_landmark",
+	"shadowblade": "rogue_landmark",
+}
+
+func set_class_art(cls: String) -> void:
+	var key := str(CLASS_ART.get(cls, "paladin_landmark"))
+	var path := "res://assets/art/%s.webp" % key
+	art = load(path) if ResourceLoader.exists(path) else null
+	queue_redraw()
 var _t := 0.0
 
 func configure(p_data: Dictionary, p_energy: int, p_max_energy: int, p_downed: bool = false, p_active: bool = false) -> void:
@@ -42,14 +55,19 @@ func _draw() -> void:
 
 	# 头像
 	var ac := Vector2(56, 62)
-	draw_circle(ac, 38.0, Color("#0A0D14"))
+	if art != null:
+		var box := Rect2(ac - Vector2(38, 38), Vector2(76, 76))
+		var tw := float(art.get_width())
+		var th := float(art.get_height())
+		var side := minf(tw, th)
+		var src := Rect2((tw - side) * 0.5, (th - side) * 0.22, side, side)
+		draw_texture_rect_region(art, box, src, Color(1, 1, 1, 0.92))
+		draw_rect(box, Color(0.03, 0.04, 0.07, 0.35))
+	if art == null:
+		draw_circle(ac, 38.0, Color("#0A0D14"))
 	draw_arc(ac, 38.0, 0, TAU, 48, Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.55), 1.5, true)
 	draw_arc(ac, 26.0, -PI * 0.5, PI * 1.2, 32, Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.25), 1.0, true)
-	var gem := PackedVector2Array([
-		ac + Vector2(0, -17), ac + Vector2(14, 0), ac + Vector2(0, 17), ac + Vector2(-14, 0),
-	])
-	draw_polyline(_closed(gem), Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.75), 1.5, true)
-	draw_circle(ac, 4.0, Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.8))
+	draw_arc(ac, 39.0, 0, TAU, 48, Color(UITheme.GOLD.r, UITheme.GOLD.g, UITheme.GOLD.b, 0.55), 2.0, true)
 
 	# 名字
 	draw_string(font, Vector2(104, 30), str(data.get("name", "旅人")), HORIZONTAL_ALIGNMENT_LEFT, 190, 16, UITheme.TEXT)
