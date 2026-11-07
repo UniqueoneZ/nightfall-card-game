@@ -30,25 +30,47 @@ func configure(p_card: Dictionary, p_index: int, p_playable: bool) -> void:
 	tex = _pick_icon(card)
 	queue_redraw()
 
+const CLASS_ICONS := {
+	"oathbound": ["block", "thorns", "sunder", "relic", "strength", "sun"],
+	"emberwright": ["fire", "magic", "skull", "potion", "lightning", "sun"],
+	"shadowblade": ["bleed", "poison", "shadow", "multi", "draw", "curse"],
+	"hierophant": ["holy", "heal", "regen", "scroll", "sun", "block"],
+	"beastcaller": ["summon", "ranged", "vulnerable", "gold", "moon", "energy"],
+}
+
 func _pick_icon(c: Dictionary) -> Texture2D:
-	var key := "attack"
-	match str(c.get("type", "")):
-		"skill": key = "block"
-		"power": key = "strength"
+	# 1) 效果优先：治疗/抽牌/中毒/灼烧 用专属图标
+	var key := ""
 	for e in c.get("effects", []):
-		match str(e.get("k", "")):
-			"heal": key = "heal"
-			"draw": key = "draw"
-			"damage_by_block": key = "block"
-			"revive": key = "holy"
-			"self_block": key = "block"
-		match str(e.get("status", "")):
-			"poison": key = "poison"
-			"vulnerable": key = "sunder"
-			"weak": key = "weak"
-			"strength": key = "strength"
-			"thorns": key = "thorns"
-			"retain": key = "block"
+		var k := str(e.get("k", ""))
+		var st := str(e.get("status", ""))
+		if k == "heal":
+			key = "heal"
+		elif k == "draw":
+			key = "draw"
+		elif st == "poison":
+			key = "poison"
+		elif st == "burn":
+			key = "fire"
+		elif st == "thorns":
+			key = "thorns"
+		elif st == "vulnerable":
+			key = "vulnerable"
+		elif st == "mark":
+			key = "vulnerable"
+		elif k == "self_damage":
+			key = "skull"
+		if key != "":
+			break
+	# 2) 否则按职业轮转，保证同类卡图不重复
+	if key == "":
+		var cls := str(c.get("class", ""))
+		var pool: Array = CLASS_ICONS.get(cls, [])
+		if not pool.is_empty():
+			var h := abs(str(c.get("id", "")).hash())
+			key = str(pool[h % pool.size()])
+		else:
+			key = "attack"
 	var path := "res://assets/icons/%s.svg" % key
 	return load(path) if ResourceLoader.exists(path) else null
 
