@@ -36,7 +36,7 @@ http://127.0.0.1:8792/?mode=online&server=ws://127.0.0.1:8787&room=TEST
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/UniqueoneZ/nightfall-card-game)
 
-点上面的按钮 → GitHub 登录授权 → Render 自动读取 `render.yaml` 建服务 → 完成后拿到
+点上面的按钮 → GitHub 登录授权 → Render 自动读取仓库根目录的 `render.yaml` 建服务 → 完成后拿到
 `wss://<服务名>.onrender.com`。
 
 免费档说明：

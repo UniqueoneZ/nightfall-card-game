@@ -1,4 +1,4 @@
-# Render 免费 Web Service 部署蓝图
+# Render 蓝图：仓库根目录必须放这个文件
 services:
   - type: web
     name: nightfall-relay
@@ -8,6 +8,3 @@ services:
     buildCommand: npm install
     startCommand: node relay.js
     healthCheckPath: /health
-    envVars:
-      - key: PORT
-        value: 10000
