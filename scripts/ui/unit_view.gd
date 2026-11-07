@@ -77,13 +77,13 @@ func _draw() -> void:
 		draw_arc(c, 78.0 * s, 0, TAU, 64, Color(UITheme.JADE.r, UITheme.JADE.g, UITheme.JADE.b, a), 2.5, true)
 
 	# 名字
-	draw_string(font, Vector2(0, 240), str(data.get("name", "")),
+	draw_string(font, Vector2(0, 234), str(data.get("name", "")),
 		HORIZONTAL_ALIGNMENT_CENTER, W, 15, UITheme.TEXT_DIM)
 
 	# 血条
 	var bw := 168.0
 	var bx := (W - bw) * 0.5
-	var by := 249.0
+	var by := 250.0
 	draw_rect(Rect2(bx, by, bw, 16), Color("#10141D"))
 	var hp := int(data.get("hp", 0))
 	var mx := maxi(1, int(data.get("max_hp", 1)))

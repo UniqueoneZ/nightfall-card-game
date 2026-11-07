@@ -6,7 +6,7 @@ config_version=5
 
 config/name="夜蚀 Nightfall"
 config/description="暗黑幻想 Roguelike 卡牌构筑 · 战斗原型"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 boot_splash/bg_color=Color(0.043137, 0.047059, 0.070588, 1)
 boot_splash/show_image=false

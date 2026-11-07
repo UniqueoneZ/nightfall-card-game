@@ -12,7 +12,12 @@
       "target": "enemy",
       "rarity": "starter",
       "desc": "造成 6 点伤害。",
-      "effects": [{ "k": "damage", "v": 6 }]
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        }
+      ]
     },
     {
       "id": "defend",
@@ -22,7 +27,12 @@
       "target": "none",
       "rarity": "starter",
       "desc": "获得 5 点格挡。",
-      "effects": [{ "k": "block", "v": 5 }]
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
     },
     {
       "id": "flurry",
@@ -32,7 +42,13 @@
       "target": "enemy",
       "rarity": "common",
       "desc": "造成 3 点伤害，两次。",
-      "effects": [{ "k": "damage", "v": 3, "hits": 2 }]
+      "effects": [
+        {
+          "k": "damage",
+          "v": 3,
+          "hits": 2
+        }
+      ]
     },
     {
       "id": "fireball",
@@ -42,7 +58,12 @@
       "target": "enemy",
       "rarity": "uncommon",
       "desc": "造成 12 点伤害。",
-      "effects": [{ "k": "damage", "v": 12 }]
+      "effects": [
+        {
+          "k": "damage",
+          "v": 12
+        }
+      ]
     },
     {
       "id": "empower",
@@ -52,7 +73,13 @@
       "target": "none",
       "rarity": "uncommon",
       "desc": "获得 2 点力量。",
-      "effects": [{ "k": "self_status", "status": "strength", "v": 2 }]
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
     },
     {
       "id": "insight",
@@ -62,7 +89,12 @@
       "target": "none",
       "rarity": "common",
       "desc": "抽 2 张牌。",
-      "effects": [{ "k": "draw", "v": 2 }]
+      "effects": [
+        {
+          "k": "draw",
+          "v": 2
+        }
+      ]
     },
     {
       "id": "heavy_blow",
@@ -72,7 +104,12 @@
       "target": "enemy",
       "rarity": "common",
       "desc": "造成 14 点伤害。",
-      "effects": [{ "k": "damage", "v": 14 }]
+      "effects": [
+        {
+          "k": "damage",
+          "v": 14
+        }
+      ]
     },
     {
       "id": "iron_wall",
@@ -82,7 +119,12 @@
       "target": "none",
       "rarity": "common",
       "desc": "获得 12 点格挡。",
-      "effects": [{ "k": "block", "v": 12 }]
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        }
+      ]
     },
     {
       "id": "poison_blade",
@@ -93,8 +135,15 @@
       "rarity": "uncommon",
       "desc": "造成 5 点伤害，施加 3 层中毒。",
       "effects": [
-        { "k": "damage", "v": 5 },
-        { "k": "status", "status": "poison", "v": 3 }
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 3
+        }
       ]
     },
     {
@@ -105,7 +154,13 @@
       "target": "enemy",
       "rarity": "uncommon",
       "desc": "施加 2 层易伤。",
-      "effects": [{ "k": "status", "status": "vulnerable", "v": 2 }]
+      "effects": [
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 2
+        }
+      ]
     },
     {
       "id": "elixir",
@@ -116,7 +171,12 @@
       "rarity": "rare",
       "desc": "回复 8 点生命。消耗。",
       "exhaust": true,
-      "effects": [{ "k": "heal", "v": 8 }]
+      "effects": [
+        {
+          "k": "heal",
+          "v": 8
+        }
+      ]
     },
     {
       "id": "cross_slash",
@@ -126,7 +186,79 @@
       "target": "enemy",
       "rarity": "rare",
       "desc": "造成 8 点伤害，两次。",
-      "effects": [{ "k": "damage", "v": 8, "hits": 2 }]
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8,
+          "hits": 2
+        }
+      ]
+    },
+    {
+      "id": "cover",
+      "name": "掩护",
+      "cost": 1,
+      "type": "skill",
+      "target": "ally",
+      "rarity": "common",
+      "desc": "为队友提供 8 点格挡。",
+      "coop_only": true,
+      "effects": [
+        {
+          "k": "block",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "rally",
+      "name": "鼓舞",
+      "cost": 1,
+      "type": "power",
+      "target": "ally",
+      "rarity": "uncommon",
+      "desc": "队友获得 2 点力量。",
+      "coop_only": true,
+      "effects": [
+        {
+          "k": "status",
+          "status": "strength",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "revive_call",
+      "name": "复苏",
+      "cost": 2,
+      "type": "skill",
+      "target": "ally",
+      "rarity": "rare",
+      "exhaust": true,
+      "desc": "复活倒下的队友并回复 18 点生命；若队友未倒下则改为治疗。",
+      "coop_only": true,
+      "effects": [
+        {
+          "k": "revive",
+          "v": 18
+        }
+      ]
+    },
+    {
+      "id": "twin_strike",
+      "name": "合击",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "desc": "造成 12 点伤害。",
+      "coop_only": true,
+      "effects": [
+        {
+          "k": "damage",
+          "v": 12
+        }
+      ]
     }
   ]
 }

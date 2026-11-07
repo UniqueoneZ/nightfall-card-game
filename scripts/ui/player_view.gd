@@ -8,12 +8,16 @@ const H := 250.0
 var data: Dictionary = {}
 var energy := 0
 var max_energy := 3
+var downed := false
+var active := false
 var _t := 0.0
 
-func configure(p_data: Dictionary, p_energy: int, p_max_energy: int) -> void:
+func configure(p_data: Dictionary, p_energy: int, p_max_energy: int, p_downed: bool = false, p_active: bool = false) -> void:
 	data = p_data
 	energy = p_energy
 	max_energy = p_max_energy
+	downed = p_downed
+	active = p_active
 	custom_minimum_size = Vector2(W, H)
 	size = Vector2(W, H)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -32,7 +36,8 @@ func _draw() -> void:
 		return
 	var font := get_theme_default_font()
 
-	var panel := UITheme.panel_box(Color(0.055, 0.065, 0.095, 0.92), UITheme.LINE, 14, 1)
+	var border := UITheme.GOLD if active else UITheme.LINE
+	var panel := UITheme.panel_box(Color(0.055, 0.065, 0.095, 0.92), border, 14, 2 if active else 1)
 	draw_style_box(panel, Rect2(0, 0, W, H))
 
 	# 头像
@@ -78,6 +83,11 @@ func _draw() -> void:
 
 	# 能量球
 	_draw_energy(Vector2(58, 202))
+
+	if downed:
+		draw_rect(Rect2(0, 0, W, H), Color(0.25, 0.03, 0.05, 0.55))
+		draw_string(font, Vector2(0, 140), "已倒下", HORIZONTAL_ALIGNMENT_CENTER, W, 30, Color("#E88A90"))
+		draw_string(font, Vector2(0, 172), "等待救援或自动复活", HORIZONTAL_ALIGNMENT_CENTER, W, 13, Color("#B08088"))
 
 func _draw_energy(c: Vector2) -> void:
 	var font := get_theme_default_font()
