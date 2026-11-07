@@ -44,6 +44,11 @@ var started := false
 var cmd_queue: Array = []
 var status_panel: Control = null
 var _connect_attempts := 0
+var in_flight: Dictionary = {}
+var outbox: Array = []
+var anim_queue: Array = []
+var animating := false
+var last_seq := -1
 
 func _ready() -> void:
 	theme = UITheme.build()
@@ -239,7 +244,7 @@ func _on_net_message(msg: Dictionary) -> void:
 			_begin_online(int(msg.get("seed", 0)), msg.get("seats", []))
 		"cmd":
 			if started:
-				_apply_cmd(msg.get("cmd", {}))
+				_on_net_cmd(msg)
 		"left":
 			_show_status("队友已离开房间")
 		"error":
@@ -318,6 +323,8 @@ func _refresh() -> void:
 			UITheme.button_box(Color(0.10, 0.12, 0.17, 0.95) if on else UITheme.PANEL,
 				UITheme.GOLD if on else UITheme.LINE, 2 if on else 1, 8))
 		b.add_theme_color_override("font_color", UITheme.GOLD if on else UITheme.TEXT_DIM)
+	if online and OS.has_feature("web"):
+		JavaScriptBridge.eval("window.__nh='" + engine.state_hash() + "'")
 	_rebuild_hand()
 	end_button.disabled = engine.phase != "player" or busy
 
@@ -417,26 +424,70 @@ func _on_end_round() -> void:
 
 func _submit(cmd: Dictionary) -> void:
 	if online:
-		busy = true
-		end_button.disabled = true
-		net.send({"t": "cmd", "cmd": cmd})
+		if not in_flight.is_empty():
+			outbox.append(cmd)
+			return
+		_predict(cmd)
+	else:
+		_apply_cmd(cmd)
+
+## 联机：本地先行执行，立刻出画面；等服务端回声再确认
+func _predict(cmd: Dictionary) -> void:
+	var base := engine.snapshot()
+	engine.execute(cmd)
+	var evs := engine.take_events()
+	in_flight = {"cmd": cmd, "base": base}
+	net.send({"t": "cmd", "cmd": cmd})
+	_run(evs)
+
+func _on_net_cmd(msg: Dictionary) -> void:
+	var seq := int(msg.get("seq", -1))
+	if seq >= 0 and seq <= last_seq:
+		return
+	if seq >= 0:
+		last_seq = seq
+	var cmd: Dictionary = msg.get("cmd", {})
+	var by := int(msg.get("by", -1))
+	if by == my_seat:
+		in_flight = {}
+		if not outbox.is_empty():
+			_predict(outbox.pop_front())
+		return
+	if not in_flight.is_empty():
+		# 队友指令先到：回滚到预测前，按服务器顺序重放
+		var mine: Dictionary = in_flight["cmd"]
+		engine.restore(in_flight["base"])
+		engine.execute(cmd)
+		var evs1 := engine.take_events()
+		engine.execute(mine)
+		var evs2 := engine.take_events()
+		in_flight["base"] = engine.snapshot()
+		_run(evs1 + evs2)
 	else:
 		_apply_cmd(cmd)
 
 func _apply_cmd(cmd: Dictionary) -> void:
-	cmd_queue.append(cmd)
-	if busy:
+	engine.execute(cmd)
+	_run(engine.take_events())
+
+## 动画串行队列
+func _run(evs: Array) -> void:
+	if evs.is_empty():
+		_refresh()
 		return
-	while not cmd_queue.is_empty():
+	anim_queue.append(evs)
+	if animating:
+		return
+	animating = true
+	while not anim_queue.is_empty():
+		var e: Array = anim_queue.pop_front()
 		busy = true
-		var c: Dictionary = cmd_queue.pop_front()
-		engine.execute(c)
-		var evs := engine.take_events()
 		_rebuild_hand()
-		await _animate(evs)
+		await _animate(e)
 		busy = false
 		_refresh()
 		await _check_outcome()
+	animating = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -537,7 +588,7 @@ func _float_text(pos: Vector2, text: String, color: Color, size: int) -> void:
 	tw.finished.connect(l.queue_free)
 
 func _wait(sec: float) -> void:
-	await get_tree().create_timer(sec).timeout
+	await get_tree().create_timer(sec * (0.45 if online else 1.0)).timeout
 
 # ---------------------------------------------------------------- 结算
 

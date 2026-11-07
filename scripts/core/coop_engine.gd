@@ -446,6 +446,26 @@ func execute(cmd: Dictionary) -> bool:
 			return true
 	return false
 
+## 存档 / 回档：联机预测时用于回滚重放
+func snapshot() -> Dictionary:
+	return {
+		"players": players.duplicate(true),
+		"boss": boss.duplicate(true),
+		"round": round,
+		"phase": phase,
+		"stats": stats.duplicate(true),
+		"rng": rng.state,
+	}
+
+func restore(s: Dictionary) -> void:
+	players = s["players"].duplicate(true)
+	boss = s["boss"].duplicate(true)
+	round = int(s["round"])
+	phase = str(s["phase"])
+	stats = s["stats"].duplicate(true)
+	rng.state = int(s["rng"])
+	events.clear()
+
 ## 状态指纹：两端比对用，不一致说明锁步崩了
 func state_hash() -> String:
 	var parts: Array = ["r%d" % round, "boss:%d/%d" % [int(boss["hp"]), int(boss["block"])], phase]

@@ -8,6 +8,8 @@ wasm/pck 走 raw，首次加载从十几分钟降到一分钟内。
 用法:
     python3 tools/patch_web_cdn.py build/web/index.html UniqueoneZ/nightfall-card-game gh-pages
 """
+import hashlib
+import os
 import re
 import sys
 
@@ -28,7 +30,14 @@ def main() -> int:
         return 0
 
     base = RAW.format(repo=repo, branch=branch)
-    new, n = re.subn(r'"executable":"index"', f'"executable":"{base}","mainPack":"{base}.pck"', html)
+    # 用 pck 内容哈希做版本号，绕开 raw CDN 的 5 分钟缓存
+    pck_path = os.path.join(os.path.dirname(path), "index.pck")
+    ver = hashlib.sha1(open(pck_path, "rb").read(1 << 20)).hexdigest()[:10]
+    new, n = re.subn(
+        r'"executable":"index"',
+        f'"executable":"{base}","mainPack":"{base}.pck?v={ver}"',
+        html,
+    )
     if n != 1:
         print(f"[fail] 未找到 executable 配置（匹配 {n} 次）")
         return 1
