@@ -153,6 +153,90 @@
         4,
         3
       ]
+    },
+    {
+      "id": "warden2",
+      "name": "深渊主教 · 卡戎",
+      "hp": 175,
+      "shape": "eye",
+      "tint": "#A05A7A",
+      "scale": 1.18,
+      "flavor": "祂数过每一个倒在这里的人。",
+      "moves": [
+        {
+          "name": "暗蚀",
+          "type": "attack",
+          "damage": 12
+        },
+        {
+          "name": "颂歌",
+          "type": "buff",
+          "status": "strength",
+          "value": 2
+        },
+        {
+          "name": "噬魂",
+          "type": "aoe",
+          "damage": 8
+        },
+        {
+          "name": "处刑",
+          "type": "attack",
+          "damage": 18
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2,
+        0,
+        3
+      ]
+    },
+    {
+      "id": "warden3",
+      "name": "无光之王",
+      "hp": 230,
+      "shape": "spike",
+      "tint": "#C0603C",
+      "scale": 1.3,
+      "flavor": "王座之上，没有脸。",
+      "moves": [
+        {
+          "name": "王权",
+          "type": "attack",
+          "damage": 14
+        },
+        {
+          "name": "碾压",
+          "type": "aoe",
+          "damage": 10
+        },
+        {
+          "name": "加冕",
+          "type": "buff",
+          "status": "strength",
+          "value": 3
+        },
+        {
+          "name": "审判",
+          "type": "attack",
+          "damage": 22
+        },
+        {
+          "name": "荆棘王座",
+          "type": "defend",
+          "block": 18
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2,
+        0,
+        3,
+        4
+      ]
     }
   ],
   "encounters": [

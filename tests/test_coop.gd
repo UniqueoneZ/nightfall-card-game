@@ -25,6 +25,8 @@ func _initialize() -> void:
 	_test_retain()
 	_test_damage_by_block()
 	_test_card_pool()
+	_test_ready_gate()
+	_test_stage_reward()
 	_test_fuzz()
 	print("\n===== %d passed, %d failed =====" % [_passed, _failed])
 	quit(0 if _failed == 0 else 1)
@@ -167,6 +169,34 @@ func _test_card_pool() -> void:
 			oath += 1
 			_check("卡 %s 字段完整" % id, c.has("cost") and c.has("type") and c.has("effects"))
 	_check("守誓者共 54 张", oath == 54)
+
+func _test_ready_gate() -> void:
+	var e := _engine()
+	e.boss["intent"] = {"type": "wait", "name": "静观"}
+	var r0 := int(e.round)
+	e.set_ready(0)
+	_check("只有一人准备时不结束回合", int(e.round) == r0 and e.phase == "player")
+	e.set_ready(1)
+	_check("两人都准备才进入下一回合", int(e.round) == r0 + 1)
+
+func _test_stage_reward() -> void:
+	var e := _engine()
+	e.boss_defs = [ _db.enemy("warden"), _db.enemy("warden2") ]
+	e.stage_count = 2
+	e.boss = e._make_boss(e.boss_defs[0])
+	e.boss["hp"] = 5
+	e.players[0]["hand"] = ["g_strike"]
+	e.players[0]["energy"] = 3
+	e.play_card(0, 0, "")
+	_check("击败第一关进入奖励阶段", e.phase == "reward")
+	_check("每人都发 3 张备选", e.reward_options[0].size() == 3 and e.reward_options[1].size() == 3)
+	var c0 := str(e.reward_options[0][0])
+	var c1 := str(e.reward_options[1][0])
+	e.pick_reward(0, c0)
+	_check("一人选完仍在奖励阶段", e.phase == "reward")
+	e.pick_reward(1, c1)
+	_check("两人选完进入第 2 关", e.stage == 1 and e.phase == "player")
+	_check("新 Boss 已就位", str(e.boss["name"]) == str(_db.enemy("warden2")["name"]))
 
 func _test_fuzz() -> void:
 	for seed in range(12):

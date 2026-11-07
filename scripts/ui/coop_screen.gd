@@ -43,6 +43,8 @@ var net: NetClient = null
 var started := false
 var cmd_queue: Array = []
 var status_panel: Control = null
+var reward_layer: Control = null
+var reward_owner := -1
 var _connect_attempts := 0
 var in_flight: Dictionary = {}
 var outbox: Array = []
@@ -252,7 +254,8 @@ func _on_net_message(msg: Dictionary) -> void:
 
 func _begin_online(seed: int, seats: Array) -> void:
 	engine = CoopEngine.new()
-	engine.setup(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()], DB.enemy("warden"), seed)
+	engine.setup_stages(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()],
+		[DB.enemy("warden"), DB.enemy("warden2"), DB.enemy("warden3")], seed)
 	for i in mini(seats.size(), 2):
 		var s: Dictionary = seats[i]
 		engine.players[i]["name"] = "%s %s" % [engine.players[i]["name"], str(s.get("name", ""))]
@@ -293,7 +296,8 @@ func _hide_status() -> void:
 
 func _start_battle() -> void:
 	engine = CoopEngine.new()
-	engine.setup(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()], DB.enemy("warden"), 20261107)
+	engine.setup_stages(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()],
+		[DB.enemy("warden"), DB.enemy("warden2"), DB.enemy("warden3")], 20261107)
 	active_idx = 0
 	targeting_idx = -1
 	busy = false
@@ -302,9 +306,14 @@ func _start_battle() -> void:
 	_refresh()
 
 func _refresh() -> void:
-	round_label.text = "双人合作 · 回合 %d" % engine.round
+	round_label.text = "双人合作 · 第 %d/%d 关 · 回合 %d" % [
+		engine.stage + 1, engine.stage_count, engine.round]
+	var r0 := "已准备" if engine.ready_flags[0] else "行动中"
+	var r1 := "已准备" if engine.ready_flags[1] else "行动中"
+	info_label.text = "(%s) %s    (%s) %s" % [
+		engine.players[0]["name"], r0, engine.players[1]["name"], r1]
 	if online:
-		info_label.text = "房间 %s    P1 抽牌堆 %d    P2 抽牌堆 %d" % [room_code, engine.players[0]["draw"].size(), engine.players[1]["draw"].size()]
+		info_label.text = "房间 %s   " % room_code + info_label.text
 	else:
 		info_label.text = "P1 抽牌堆 %d    P2 抽牌堆 %d" % [
 		engine.players[0]["draw"].size(), engine.players[1]["draw"].size()
@@ -326,7 +335,18 @@ func _refresh() -> void:
 	if online and OS.has_feature("web"):
 		JavaScriptBridge.eval("window.__nh='" + engine.state_hash() + "'")
 	_rebuild_hand()
-	end_button.disabled = engine.phase != "player" or busy
+	if online:
+		var mine: bool = bool(engine.ready_flags[my_seat]) if my_seat < 2 else false
+		end_button.text = "已准备，等待队友" if mine else "准备就绪"
+		end_button.disabled = engine.phase != "player" or busy or mine
+	else:
+		end_button.text = "结束回合"
+		end_button.disabled = engine.phase != "player" or busy
+
+	if engine.phase == "reward":
+		_show_rewards()
+	else:
+		_close_rewards()
 
 func _rebuild_hand() -> void:
 	for c in cards:
@@ -420,7 +440,10 @@ func _on_end_round() -> void:
 		return
 	targeting_idx = -1
 	_clear_hotspots()
-	_submit({"type": "end", "pi": active_idx})
+	if online:
+		_submit({"type": "ready", "pi": my_seat})
+	else:
+		_submit({"type": "end", "pi": active_idx})
 
 func _submit(cmd: Dictionary) -> void:
 	if online:
@@ -662,6 +685,67 @@ func _run_shot() -> void:
 		img.save_png(ProjectSettings.globalize_path("res://shot_coop.png"))
 		print("SHOT_SAVED coop")
 	get_tree().quit()
+
+func _show_rewards() -> void:
+	var owner := my_seat if online else active_idx
+	if reward_layer != null and reward_owner == owner:
+		return
+	_close_rewards()
+	reward_owner = owner
+	reward_layer = Control.new()
+	reward_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	reward_layer.mouse_filter = Control.MOUSE_FILTER_STOP
+	reward_layer.z_index = 960
+	add_child(reward_layer)
+
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.82)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	reward_layer.add_child(dim)
+
+	var title := _make_label("战斗胜利 · 选择一张卡加入牌组", 26, UITheme.GOLD)
+	title.position = Vector2(0, 150)
+	title.size = Vector2(1440, 40)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	reward_layer.add_child(title)
+
+	var sub := _make_label("%s 的奖励" % str(engine.players[owner]["name"]), 15, UITheme.TEXT_DIM)
+	sub.position = Vector2(0, 200)
+	sub.size = Vector2(1440, 26)
+	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	reward_layer.add_child(sub)
+
+	var opts: Array = engine.reward_options[owner] if owner < 2 else []
+	var total := opts.size() * 180.0
+	var start_x := 720.0 - total * 0.5 + 15.0
+	for i in opts.size():
+		var def := engine.card_def(str(opts[i]))
+		var v := CardView.new()
+		reward_layer.add_child(v)
+		v.configure(def, i, true)
+		v.position = Vector2(start_x + i * 180.0, 300)
+		v.card_pressed.connect(_on_reward_pick)
+
+	if online and engine.reward_picks[my_seat] != "":
+		sub.text = "已选择，等待队友…"
+
+func _close_rewards() -> void:
+	if reward_layer != null and is_instance_valid(reward_layer):
+		reward_layer.queue_free()
+	reward_layer = null
+	reward_owner = -1
+
+func _on_reward_pick(idx: int) -> void:
+	var owner := my_seat if online else active_idx
+	var opts: Array = engine.reward_options[owner]
+	if idx < 0 or idx >= opts.size():
+		return
+	var cid := str(opts[idx])
+	_submit({"type": "pick", "pi": owner, "card": cid})
+	_close_rewards()
+	if not online and engine.phase == "reward":
+		active_idx = 1 - active_idx
+		_refresh()
 
 func _leave_table() -> void:
 	if net != null:

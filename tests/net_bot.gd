@@ -68,4 +68,4 @@ func _process(delta: float) -> void:
 		if engine.can_play(seat, i, tid):
 			net.send({"t": "cmd", "cmd": {"type": "play", "pi": seat, "hand_index": i, "target": tid}})
 			return
-	net.send({"t": "cmd", "cmd": {"type": "end", "pi": seat}})
+	net.send({"t": "cmd", "cmd": {"type": "ready", "pi": seat}})

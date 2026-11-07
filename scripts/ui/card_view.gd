@@ -13,6 +13,7 @@ var playable := true
 var hovered := false
 var targeted := false
 var home := Vector2.ZERO
+var tex: Texture2D = null
 var _tw: Tween = null
 
 func configure(p_card: Dictionary, p_index: int, p_playable: bool) -> void:
@@ -26,7 +27,30 @@ func configure(p_card: Dictionary, p_index: int, p_playable: bool) -> void:
 	pivot_offset = Vector2(W, H) * 0.5
 	modulate = Color(1, 1, 1, 1) if playable else Color(0.66, 0.68, 0.74, 0.9)
 	tooltip_text = ""
+	tex = _pick_icon(card)
 	queue_redraw()
+
+func _pick_icon(c: Dictionary) -> Texture2D:
+	var key := "attack"
+	match str(c.get("type", "")):
+		"skill": key = "block"
+		"power": key = "strength"
+	for e in c.get("effects", []):
+		match str(e.get("k", "")):
+			"heal": key = "heal"
+			"draw": key = "draw"
+			"damage_by_block": key = "block"
+			"revive": key = "holy"
+			"self_block": key = "block"
+		match str(e.get("status", "")):
+			"poison": key = "poison"
+			"vulnerable": key = "sunder"
+			"weak": key = "weak"
+			"strength": key = "strength"
+			"thorns": key = "thorns"
+			"retain": key = "block"
+	var path := "res://assets/icons/%s.svg" % key
+	return load(path) if ResourceLoader.exists(path) else null
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -89,7 +113,12 @@ func _draw() -> void:
 	draw_rect(art, Color(accent.r, accent.g, accent.b, 0.15))
 	draw_circle(art.get_center(), 34.0, Color(accent.r, accent.g, accent.b, 0.13))
 	draw_circle(art.get_center(), 20.0, Color(accent.r, accent.g, accent.b, 0.10))
-	_draw_sigil(art.get_center() + Vector2(0, 2), accent)
+	if tex != null:
+		var isz := 54.0
+		draw_texture_rect(tex, Rect2(art.get_center() - Vector2(isz, isz) * 0.5, Vector2(isz, isz)), false,
+			Color(1, 1, 1, 0.92))
+	else:
+		_draw_sigil(art.get_center() + Vector2(0, 2), accent)
 	draw_line(Vector2(6, art.end.y), Vector2(w - 6, art.end.y), Color(accent.r, accent.g, accent.b, 0.5), 1.0)
 
 	# 费用

@@ -18,12 +18,21 @@ var boss: Dictionary = {}
 var events: Array = []
 
 var round := 0
-var phase := "idle"            # player / boss / victory / defeat
+var stage := 0
+var stage_count := 1
+var boss_defs: Array = []
+var phase := "idle"            # player / boss / reward / victory / defeat
+var ready_flags := [false, false]
+var reward_options := [[], []]
+var reward_picks := ["", ""]
 var stats := {"damage": 0, "cards_played": 0, "coop_hits": 0}
 
 # ---------------------------------------------------------------- 初始化
 
 func setup(card_db: Dictionary, decks: Array, boss_def: Dictionary, p_seed: int = 0) -> void:
+	setup_stages(card_db, decks, [boss_def], p_seed)
+
+func setup_stages(card_db: Dictionary, decks: Array, p_boss_defs: Array, p_seed: int = 0) -> void:
 	cards = card_db
 	rng.seed = p_seed
 	events.clear()
@@ -37,19 +46,27 @@ func setup(card_db: Dictionary, decks: Array, boss_def: Dictionary, p_seed: int 
 		players.append(_make_player("p%d" % i, names[i % names.size()], PLAYER_HP, decks[i].duplicate()))
 		_shuffle(players[i]["draw"])
 
-	boss = {
+	boss_defs = p_boss_defs
+	stage = 0
+	stage_count = p_boss_defs.size()
+	boss = _make_boss(p_boss_defs[0])
+	ready_flags = [false, false]
+	start_round()
+
+func _make_boss(d: Dictionary) -> Dictionary:
+	var b := {
 		"id": "boss",
-		"name": str(boss_def.get("name", "深渊守卫")),
-		"hp": int(boss_def.get("hp", 120)),
-		"max_hp": int(boss_def.get("hp", 120)),
+		"name": str(d.get("name", "深渊守卫")),
+		"hp": int(d.get("hp", 120)),
+		"max_hp": int(d.get("hp", 120)),
 		"block": 0,
 		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "thorns": 0, "retain": 0},
-		"def": boss_def,
+		"def": d,
 		"pattern_idx": 0,
 		"alive": true,
 	}
-	boss["intent"] = _intent_for(boss)
-	start_round()
+	b["intent"] = _intent_for(b)
+	return b
 
 func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 	return {
@@ -76,6 +93,7 @@ func start_round() -> void:
 	round += 1
 	phase = "player"
 	_emit({"t": "round_start", "round": round})
+	ready_flags = [false, false]
 	for p in players:
 		p["threat"] = int(p["dmg_round"])
 		p["dmg_round"] = 0
@@ -94,6 +112,77 @@ func start_round() -> void:
 		p["hand"].clear()
 		_draw(p, HAND_SIZE)
 	_emit({"t": "state"})
+
+## 双人合作：必须两人都准备才结束回合
+func set_ready(pi: int) -> bool:
+	if phase != "player" or pi < 0 or pi >= 2:
+		return false
+	if players[pi]["downed"]:
+		return false
+	ready_flags[pi] = true
+	_emit({"t": "ready", "player": "p%d" % pi, "value": true})
+	if ready_flags[0] and ready_flags[1]:
+		end_round()
+	return true
+
+func pick_reward(pi: int, card_id: String) -> bool:
+	if phase != "reward" or pi < 0 or pi >= 2:
+		return false
+	if reward_picks[pi] != "":
+		return false
+	if not reward_options[pi].has(card_id):
+		return false
+	reward_picks[pi] = card_id
+	players[pi]["draw"].append(card_id)
+	_emit({"t": "picked", "player": "p%d" % pi, "card": card_id})
+	if reward_picks[0] != "" and reward_picks[1] != "":
+		_next_stage()
+	return true
+
+func _next_stage() -> void:
+	stage += 1
+	if stage >= stage_count:
+		_finish("victory")
+		return
+	boss = _make_boss(boss_defs[stage])
+	for p in players:
+		if not p["downed"]:
+			p["hp"] = mini(int(p["max_hp"]), int(p["hp"]) + 15)
+	reward_options = [[], []]
+	reward_picks = ["", ""]
+	phase = "player"
+	_emit({"t": "stage", "stage": stage})
+	start_round()
+
+func _roll_rewards() -> void:
+	reward_options = [[], []]
+	reward_picks = ["", ""]
+	for i in 2:
+		var pool := _pool_for(i)
+		var picks: Array = []
+		var guard := 0
+		while picks.size() < 3 and guard < 200:
+			guard += 1
+			if pool.is_empty():
+				break
+			var cid := str(pool[rng.randi_range(0, pool.size() - 1)])
+			if not picks.has(cid):
+				picks.append(cid)
+		reward_options[i] = picks
+	_emit({"t": "reward", "options": reward_options})
+
+func _pool_for(pi: int) -> Array:
+	var out: Array = []
+	for id in cards:
+		var c: Dictionary = cards[id]
+		if str(c.get("rarity", "")) == "starter":
+			continue
+		var cls := str(c.get("class", ""))
+		if pi == 0 and cls == "oathbound":
+			out.append(id)
+		elif pi == 1 and cls != "oathbound":
+			out.append(id)
+	return out
 
 func end_round() -> void:
 	if phase != "player":
@@ -115,7 +204,7 @@ func end_round() -> void:
 	_tick_boss_statuses()
 
 	if not boss["alive"]:
-		_finish("victory")
+		_on_boss_defeated()
 		return
 	if _all_downed():
 		_finish("defeat")
@@ -212,7 +301,7 @@ func play_card(pi: int, hand_index: int, target_id: String = "") -> bool:
 	_emit({"t": "state"})
 
 	if int(boss["hp"]) <= 0:
-		_finish("victory")
+		_on_boss_defeated()
 	return true
 
 func _resolve_effect(eff: Dictionary, caster: Dictionary, target: Dictionary) -> void:
@@ -441,6 +530,10 @@ func execute(cmd: Dictionary) -> bool:
 	match str(cmd.get("type", "")):
 		"play":
 			return play_card(int(cmd.get("pi", 0)), int(cmd.get("hand_index", -1)), str(cmd.get("target", "")))
+		"ready":
+			return set_ready(int(cmd.get("pi", 0)))
+		"pick":
+			return pick_reward(int(cmd.get("pi", 0)), str(cmd.get("card", "")))
 		"end":
 			end_round()
 			return true
@@ -475,6 +568,14 @@ func state_hash() -> String:
 			p["hand"].size(), ",".join(p["hand"]),
 		])
 	return "|".join(parts).sha256_text().substr(0, 16)
+
+func _on_boss_defeated() -> void:
+	if stage + 1 >= stage_count:
+		_finish("victory")
+		return
+	phase = "reward"
+	boss["alive"] = false
+	_roll_rewards()
 
 func _finish(result: String) -> void:
 	if phase == "victory" or phase == "defeat":
