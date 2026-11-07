@@ -18,6 +18,9 @@ func _ready() -> void:
 	Game.last_stats = {}
 	_build_hud()
 	_refresh()
+	if Game.pending_relic:
+		Game.pending_relic = false
+		_show_relic_reward()
 
 func _pos(f: int, i: int) -> Vector2:
 	var w: int = Game.map[f].size()
@@ -56,6 +59,7 @@ func _refresh() -> void:
 	hud.text = "生命 %d/%d      金币 %d      第 %d / %d 层" % [
 		Game.hp, Game.max_hp, Game.gold, maxi(Game.floor_idx, 0) + 1, Game.map.size()]
 	hint.text = "点击高亮节点前进"
+	Game.save_run()
 
 	var reach: Array = Game.reachable()
 	for f in Game.map.size():
@@ -187,6 +191,20 @@ func _show_shop() -> void:
 	_open_modal("商店", "金币 %d" % Game.gold, choices)
 
 # ---------------------------------------------------------------- 模态框
+
+func _show_relic_reward() -> void:
+	var choices: Array = Game.roll_relic_choices(Game.run_seed + Game.floor_idx * 977 + Game.battles_won)
+	var btns: Array = []
+	for id in choices:
+		var d := Relics.get_def(str(id))
+		btns.append({"text": "%s · %s" % [str(d.get("name", id)), str(d.get("desc", ""))],
+			"cb": func() -> void:
+				Game.add_relic(str(id))
+				_refresh()})
+	if btns.is_empty():
+		_refresh()
+		return
+	_open_modal("获得遗物", "精英的遗物。选一件带走。", btns)
 
 func _open_modal(title: String, body: String, choices: Array) -> void:
 	_close_modal()

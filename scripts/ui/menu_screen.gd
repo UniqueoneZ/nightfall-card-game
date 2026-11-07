@@ -39,6 +39,13 @@ func _ready() -> void:
 		get_tree().change_scene_to_file("res://scenes/map.tscn"))
 	add_child(solo)
 
+	if Game.has_save():
+		var cont := _menu_button("继续爬塔", "读取上次的进度", Vector2(500, 640))
+		cont.pressed.connect(func() -> void:
+			if Game.load_run():
+				get_tree().change_scene_to_file("res://scenes/map.tscn"))
+		add_child(cont)
+
 	var coop := _menu_button("双人合作", "共享回合，一起打 Boss", Vector2(500, 520))
 	coop.pressed.connect(func() -> void:
 		get_tree().change_scene_to_file("res://scenes/coop.tscn"))

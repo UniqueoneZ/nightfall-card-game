@@ -21,6 +21,8 @@ var current_node: Dictionary = {}
 var relics: Array = []
 var last_stats: Dictionary = {}
 var battles_won := 0
+var pending_relic := false
+var relic_choices: Array = []
 
 func new_run(p_seed: int = 0) -> void:
 	run_seed = p_seed if p_seed != 0 else int(Time.get_unix_time_from_system())
@@ -35,6 +37,8 @@ func new_run(p_seed: int = 0) -> void:
 	relics.clear()
 	battles_won = 0
 	last_stats = {}
+	pending_relic = false
+	relic_choices = []
 
 func ensure_run() -> void:
 	if map.is_empty():
@@ -94,14 +98,97 @@ func create_battle() -> BattleEngine:
 			defs.append(d)
 	var eng := BattleEngine.new()
 	eng.setup(deck, hp, max_hp, defs, DB.cards, run_seed + maxi(floor_idx, 0) * 7919 + maxi(node_idx, 0))
+	Relics.apply_to_engine(eng, relics)
 	last_stats = eng.stats
 	return eng
 
 func on_battle_won() -> void:
 	mark_visited()
-	hp = mini(max_hp, hp + HEAL_BETWEEN)
-	gold += 25 + maxi(floor_idx, 0) * 5
+	hp = mini(max_hp, hp + HEAL_BETWEEN + Relics.heal_after(relics))
+	gold += 25 + maxi(floor_idx, 0) * 5 + Relics.gold_bonus(relics)
 	battles_won += 1
+
+# ---------------------------------------------------------------- 遗物
+
+func has_relic(id: String) -> bool:
+	return relics.has(id)
+
+func add_relic(id: String) -> void:
+	if not relics.has(id):
+		relics.append(id)
+
+func roll_relic_choices(rng_seed: int) -> Array:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = rng_seed
+	var pool: Array = []
+	for id in Relics.POOL:
+		if not relics.has(id):
+			pool.append(id)
+	var out: Array = []
+	var guard := 0
+	while out.size() < 3 and pool.size() > 0 and guard < 50:
+		guard += 1
+		var i := rng.randi_range(0, pool.size() - 1)
+		out.append(pool[i])
+		pool.remove_at(i)
+	relic_choices = out
+	return out
+
+# ---------------------------------------------------------------- 存档
+
+const SAVE_PATH := "user://run.json"
+
+func save_run() -> void:
+	var data := {
+		"version": 1,
+		"seed": run_seed,
+		"deck": deck,
+		"hp": hp,
+		"max_hp": max_hp,
+		"gold": gold,
+		"relics": relics,
+		"floor": floor_idx,
+		"node": node_idx,
+		"map": map,
+		"battles": battles_won,
+	}
+	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(JSON.stringify(data))
+	f.close()
+
+func has_save() -> bool:
+	return FileAccess.file_exists(SAVE_PATH)
+
+func load_run() -> bool:
+	if not FileAccess.file_exists(SAVE_PATH):
+		return false
+	var f := FileAccess.open(SAVE_PATH, FileAccess.READ)
+	if f == null:
+		return false
+	var parsed = JSON.parse_string(f.get_as_text())
+	f.close()
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return false
+	run_seed = int(parsed.get("seed", 0))
+	deck = parsed.get("deck", [])
+	hp = int(parsed.get("hp", MAX_HP))
+	max_hp = int(parsed.get("max_hp", MAX_HP))
+	gold = int(parsed.get("gold", 0))
+	relics = parsed.get("relics", [])
+	floor_idx = int(parsed.get("floor", -1))
+	node_idx = int(parsed.get("node", -1))
+	map = parsed.get("map", [])
+	battles_won = int(parsed.get("battles", 0))
+	current_node = {}
+	if floor_idx >= 0 and floor_idx < map.size() and node_idx >= 0 and node_idx < map[floor_idx].size():
+		current_node = map[floor_idx][node_idx]
+	return true
+
+func clear_save() -> void:
+	if FileAccess.file_exists(SAVE_PATH):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
 
 func add_card(card_id: String) -> void:
 	deck.append(card_id)
