@@ -83,6 +83,7 @@ func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 		"downed": false,
 		"revive_in": 0,
 		"attacked": false,
+		"attacks": 0,
 		"threat": 0,
 		"dmg_round": 0,
 	}
@@ -108,6 +109,7 @@ func start_round() -> void:
 			p["block"] = 0
 		p["energy"] = ENERGY
 		p["attacked"] = false
+		p["attacks"] = 0
 		p["discard"].append_array(p["hand"])
 		p["hand"].clear()
 		_draw(p, HAND_SIZE)
@@ -297,6 +299,8 @@ func play_card(pi: int, hand_index: int, target_id: String = "") -> bool:
 	if coop and boss["alive"]:
 		_attack(p, boss, COOP_BONUS, true)
 
+	if str(card.get("type", "")) == "attack":
+		p["attacks"] = int(p.get("attacks", 0)) + 1
 	p["discard"].append(cid)
 	_emit({"t": "state"})
 
@@ -316,6 +320,10 @@ func _resolve_effect(eff: Dictionary, caster: Dictionary, target: Dictionary) ->
 			_add_block(target, int(eff.get("v", 0)))
 		"self_block":
 			_add_block(caster, int(eff.get("v", 0)))
+		"damage_combo":
+			var per := int(eff.get("per", 2))
+			var base := int(eff.get("v", 0)) + per * int(caster.get("attacks", 0))
+			_attack(caster, target, base)
 		"damage_by_block":
 			var mult := float(eff.get("mult", 1.0))
 			var add := int(eff.get("add", 0))

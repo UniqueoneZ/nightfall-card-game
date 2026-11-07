@@ -69,6 +69,7 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 		"max_hp": max_hp,
 		"block": 0,
 		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
+		"attacks": 0,
 		"is_player": is_player,
 		"alive": hp > 0,
 	}
@@ -82,6 +83,7 @@ func start_player_turn() -> void:
 		player["block"] = int(player["block"]) / 2
 	else:
 		player["block"] = 0
+	player["attacks"] = 0
 	energy = max_energy
 	_emit({"t": "turn_start", "turn": turn})
 	_draw(HAND_DRAW)
@@ -179,6 +181,8 @@ func play_card(hand_index: int, target_id: String = "") -> bool:
 	else:
 		discard_pile.append(cid)
 
+	if str(card.get("type", "")) == "attack":
+		player["attacks"] = int(player.get("attacks", 0)) + 1
 	_emit({"t": "energy", "value": energy})
 	if _all_enemies_dead():
 		_finish("victory")
@@ -195,6 +199,10 @@ func _resolve_effect(eff: Dictionary, target: Dictionary) -> void:
 			_add_block(player, int(eff.get("v", 0)))
 		"self_block":
 			_add_block(player, int(eff.get("v", 0)))
+		"damage_combo":
+			var per := int(eff.get("per", 2))
+			var base := int(eff.get("v", 0)) + per * int(player.get("attacks", 0))
+			_attack(player, target, base)
 		"damage_by_block":
 			var mult := float(eff.get("mult", 1.0))
 			var add := int(eff.get("add", 0))

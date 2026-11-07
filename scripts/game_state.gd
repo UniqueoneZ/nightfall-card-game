@@ -15,8 +15,12 @@ const CLASS_DECKS := {
 		"e_ember", "e_ember", "e_ember", "e_ember", "e_cinder", "e_cinder",
 		"e_cinder", "e_kindling", "e_kindling", "e_guard", "e_guard", "e_sacrifice",
 	],
+	"shadowblade": [
+		"s_dagger", "s_dagger", "s_dagger", "s_thrust", "s_thrust", "s_dodge",
+		"s_dodge", "s_venom", "s_combo", "s_combo", "s_shadowstep", "s_light",
+	],
 }
-const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士"}
+const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃"}
 
 const MAX_HP := 80
 const HEAL_BETWEEN := 20

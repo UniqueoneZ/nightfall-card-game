@@ -1880,6 +1880,585 @@
           "v": 6
         }
       ]
+    },
+    {
+      "id": "s_dagger",
+      "name": "匕首",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "造成 6 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "s_dodge",
+      "name": "闪避",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "获得 5 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "s_venom",
+      "name": "淬毒",
+      "cost": 1,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "施加 3 层中毒。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "s_combo",
+      "name": "连击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "造成 4 点伤害，本回合每出过一张攻击牌再 +2。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 4,
+          "per": 2
+        }
+      ]
+    },
+    {
+      "id": "s_shadowstep",
+      "name": "暗影步",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "获得 4 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 4
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_thrust",
+      "name": "刺击",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "shadowblade",
+      "desc": "造成 7 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 7
+        }
+      ]
+    },
+    {
+      "id": "s_double",
+      "name": "双刃",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 3 点伤害，两次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 3,
+          "hits": 2
+        }
+      ]
+    },
+    {
+      "id": "s_poisonblade",
+      "name": "毒刃",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 5 点伤害，施加 2 层中毒。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "s_quick",
+      "name": "快斩",
+      "cost": 0,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 4 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "s_backstab",
+      "name": "背刺",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 5 点伤害，若目标有易伤则 +5。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_smoke",
+      "name": "烟雾",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "获得 6 点格挡，施加 1 层虚弱。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "status",
+          "status": "weak",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_poisoncloud",
+      "name": "毒雾",
+      "cost": 2,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "施加 4 层中毒。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "s_slash",
+      "name": "割喉",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 6 点伤害，本回合每出过一张攻击牌再 +2。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 6,
+          "per": 2
+        }
+      ]
+    },
+    {
+      "id": "s_light",
+      "name": "轻步",
+      "cost": 0,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "抽 1 张牌。",
+      "effects": [
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_venomdart",
+      "name": "毒镖",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 4 点伤害，施加 2 层中毒。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "s_chain",
+      "name": "连环斩",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 5 点伤害，两次，本回合每出过一张攻击牌再 +2。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 5,
+          "per": 2
+        },
+        {
+          "k": "damage_combo",
+          "v": 5,
+          "per": 2
+        }
+      ]
+    },
+    {
+      "id": "s_shadow",
+      "name": "隐匿",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "获得 10 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "s_bite",
+      "name": "蛇咬",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "造成 5 点伤害，施加 3 层中毒。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "s_focus",
+      "name": "专注",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "抽 2 张牌。",
+      "effects": [
+        {
+          "k": "draw",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "s_mark",
+      "name": "标记",
+      "cost": 0,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "shadowblade",
+      "desc": "施加 2 层易伤。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "s_thousand",
+      "name": "千刃",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 4 点伤害，三次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 4,
+          "hits": 3
+        }
+      ]
+    },
+    {
+      "id": "s_deadlypoison",
+      "name": "剧毒",
+      "cost": 2,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "施加 6 层中毒。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "s_clone",
+      "name": "影分身",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "获得 12 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_ambush",
+      "name": "偷袭",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 8 点伤害，本回合每出过一张攻击牌再 +3。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 8,
+          "per": 3
+        }
+      ]
+    },
+    {
+      "id": "s_toxicburst",
+      "name": "毒爆",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 8 点伤害，施加 3 层中毒。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "s_gale",
+      "name": "疾风连斩",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 3 点伤害，三次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 3,
+          "hits": 3
+        }
+      ]
+    },
+    {
+      "id": "s_assassinate",
+      "name": "暗杀",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 20 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 20
+        }
+      ]
+    },
+    {
+      "id": "s_snakebite",
+      "name": "毒牙",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "shadowblade",
+      "desc": "造成 6 点伤害，本回合每出过一张攻击牌再 +2，施加 1 层中毒。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 6,
+          "per": 2
+        },
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "s_myriad",
+      "name": "万刃归一",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "shadowblade",
+      "desc": "造成 6 点伤害，四次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6,
+          "hits": 4
+        }
+      ]
+    },
+    {
+      "id": "s_lethal",
+      "name": "致命毒",
+      "cost": 2,
+      "type": "skill",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "shadowblade",
+      "desc": "施加 8 层中毒。",
+      "effects": [
+        {
+          "k": "status",
+          "status": "poison",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "s_dance",
+      "name": "影之舞",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "shadowblade",
+      "desc": "获得 15 点格挡，抽 2 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 15
+        },
+        {
+          "k": "draw",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "s_death",
+      "name": "影杀",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "legendary",
+      "class": "shadowblade",
+      "desc": "造成 10 点伤害，本回合每出过一张攻击牌再 +4。",
+      "effects": [
+        {
+          "k": "damage_combo",
+          "v": 10,
+          "per": 4
+        }
+      ]
     }
   ]
 }
