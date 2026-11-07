@@ -15,12 +15,16 @@ const CLASS_DECKS := {
 		"e_ember", "e_ember", "e_ember", "e_ember", "e_cinder", "e_cinder",
 		"e_cinder", "e_kindling", "e_kindling", "e_guard", "e_guard", "e_sacrifice",
 	],
+	"hierophant": [
+		"h_light", "h_light", "h_light", "h_prayer", "h_prayer", "h_seal",
+		"h_mend", "h_shelter", "h_smite", "h_bless", "h_chant", "h_purify",
+	],
 	"shadowblade": [
 		"s_dagger", "s_dagger", "s_dagger", "s_thrust", "s_thrust", "s_dodge",
 		"s_dodge", "s_venom", "s_combo", "s_combo", "s_shadowstep", "s_light",
 	],
 }
-const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃"}
+const CLASS_NAMES := {"oathbound": "守誓者", "emberwright": "烬术士", "shadowblade": "影刃", "hierophant": "圣祷者"}
 
 const MAX_HP := 80
 const HEAL_BETWEEN := 20

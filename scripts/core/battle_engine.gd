@@ -68,7 +68,7 @@ func _make_combatant(id: String, nm: String, hp: int, max_hp: int, is_player: bo
 		"hp": clampi(hp, 0, max_hp),
 		"max_hp": max_hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
 		"attacks": 0,
 		"is_player": is_player,
 		"alive": hp > 0,
@@ -271,8 +271,11 @@ func _heal(actor: Dictionary, amount: int) -> void:
 	var before := int(actor["hp"])
 	actor["hp"] = mini(int(actor["max_hp"]), before + amount)
 	var healed := int(actor["hp"]) - before
+	var overflow := amount - healed
 	if healed > 0:
 		_emit({"t": "heal", "target": actor["id"], "amount": healed, "hp": actor["hp"]})
+	if overflow > 0 and int(actor["statuses"].get("overflow", 0)) > 0:
+		_add_block(actor, overflow)
 
 func _add_block(actor: Dictionary, amount: int) -> void:
 	if amount <= 0:
@@ -288,6 +291,13 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status], "delta": stacks})
 
 func _end_of_turn_tick(actor: Dictionary) -> void:
+	# 圣印：回合结束对随机敌人造成 seal×4 伤害
+	var seal := int(actor["statuses"].get("seal", 0))
+	if seal > 0 and bool(actor.get("is_player", false)):
+		var alive := living_enemies()
+		if not alive.is_empty():
+			var tgt: Dictionary = alive[rng.randi_range(0, alive.size() - 1)]
+			_attack(actor, tgt, seal * 4)
 	var burn := int(actor["statuses"].get("burn", 0))
 	if burn > 0:
 		actor["hp"] = maxi(0, int(actor["hp"]) - burn)

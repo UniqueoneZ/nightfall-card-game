@@ -60,7 +60,7 @@ func _make_boss(d: Dictionary) -> Dictionary:
 		"hp": int(d.get("hp", 120)),
 		"max_hp": int(d.get("hp", 120)),
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
 		"def": d,
 		"pattern_idx": 0,
 		"alive": true,
@@ -75,7 +75,7 @@ func _make_player(id: String, nm: String, hp: int, deck: Array) -> Dictionary:
 		"hp": hp,
 		"max_hp": hp,
 		"block": 0,
-		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0},
+		"statuses": {"strength": 0, "vulnerable": 0, "weak": 0, "poison": 0, "burn": 0, "thorns": 0, "retain": 0, "seal": 0, "overflow": 0},
 		"energy": ENERGY,
 		"hand": [],
 		"draw": deck,
@@ -420,8 +420,12 @@ func _heal(actor: Dictionary, amount: int) -> void:
 		return
 	var before := int(actor["hp"])
 	actor["hp"] = mini(int(actor["max_hp"]), before + amount)
-	if int(actor["hp"]) > before:
-		_emit({"t": "heal", "target": actor["id"], "amount": int(actor["hp"]) - before, "hp": actor["hp"]})
+	var healed := int(actor["hp"]) - before
+	if healed > 0:
+		_emit({"t": "heal", "target": actor["id"], "amount": healed, "hp": actor["hp"]})
+	var overflow := amount - healed
+	if overflow > 0 and int(actor["statuses"].get("overflow", 0)) > 0:
+		_add_block(actor, overflow)
 
 func _add_block(actor: Dictionary, amount: int) -> void:
 	if amount <= 0 or (actor.has("downed") and bool(actor["downed"])):
@@ -437,6 +441,9 @@ func _apply_status(actor: Dictionary, status: String, stacks: int) -> void:
 	_emit({"t": "status", "target": actor["id"], "status": status, "value": actor["statuses"][status]})
 
 func _tick_player_statuses(p: Dictionary) -> void:
+	var seal := int(p["statuses"].get("seal", 0))
+	if seal > 0 and boss["alive"]:
+		_attack(p, boss, seal * 4)
 	var burn := int(p["statuses"].get("burn", 0))
 	if burn > 0:
 		p["hp"] = maxi(0, int(p["hp"]) - burn)

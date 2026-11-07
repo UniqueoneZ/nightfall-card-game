@@ -2459,6 +2459,569 @@
           "per": 4
         }
       ]
+    },
+    {
+      "id": "h_light",
+      "name": "圣光",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "造成 6 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "h_prayer",
+      "name": "祷言",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "获得 5 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 5
+        }
+      ]
+    },
+    {
+      "id": "h_seal",
+      "name": "圣印",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "+1 圣印（回合结束造成 4 点伤害）。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_mend",
+      "name": "治疗",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "回复 6 点生命。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 6
+        }
+      ]
+    },
+    {
+      "id": "h_shelter",
+      "name": "庇护",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "获得 4 点格挡，回复 2 点生命。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 4
+        },
+        {
+          "k": "heal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_smite",
+      "name": "圣锤",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "starter",
+      "class": "hierophant",
+      "desc": "造成 5 点伤害，获得 3 点格挡。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "block",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "h_overflow",
+      "name": "溢流",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "获得溢流：过量治疗转化为格挡。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "overflow",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_bless",
+      "name": "祝福",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "获得 8 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 8
+        }
+      ]
+    },
+    {
+      "id": "h_holybolt",
+      "name": "圣光弹",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "造成 10 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "h_purify",
+      "name": "净化",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "回复 5 点生命，获得 4 点格挡。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 5
+        },
+        {
+          "k": "block",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "h_chant",
+      "name": "咏唱",
+      "cost": 1,
+      "type": "power",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "+2 圣印。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_guardian",
+      "name": "守护",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "获得 12 点格挡。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 12
+        }
+      ]
+    },
+    {
+      "id": "h_penance",
+      "name": "忏悔",
+      "cost": 1,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "造成 5 点伤害，施加 1 层易伤。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 5
+        },
+        {
+          "k": "status",
+          "status": "vulnerable",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_grace",
+      "name": "恩典",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "回复 10 点生命。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 10
+        }
+      ]
+    },
+    {
+      "id": "h_radiance",
+      "name": "辉光",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "造成 8 点伤害，+1 圣印。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_shield_faith",
+      "name": "信仰之盾",
+      "cost": 1,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "获得 6 点格挡，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 6
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_judge",
+      "name": "裁决",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "造成 12 点伤害，但失去 4 点生命。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 12
+        },
+        {
+          "k": "self_damage",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "h_sanctuary",
+      "name": "圣所",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "common",
+      "class": "hierophant",
+      "desc": "获得 10 点格挡，回复 3 点生命。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 10
+        },
+        {
+          "k": "heal",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "h_dawn",
+      "name": "黎明",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "回复 12 点生命，+1 圣印。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 12
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_judgement",
+      "name": "审判",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "造成 20 点伤害。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 20
+        }
+      ]
+    },
+    {
+      "id": "h_halo",
+      "name": "光环",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "+3 圣印。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 3
+        }
+      ]
+    },
+    {
+      "id": "h_renew",
+      "name": "复苏",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "回复 15 点生命，抽 1 张牌。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 15
+        },
+        {
+          "k": "draw",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_bastion",
+      "name": "壁垒",
+      "cost": 2,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "获得 14 点格挡，+1 溢流。",
+      "effects": [
+        {
+          "k": "block",
+          "v": 14
+        },
+        {
+          "k": "self_status",
+          "status": "overflow",
+          "v": 1
+        }
+      ]
+    },
+    {
+      "id": "h_lance",
+      "name": "圣枪",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "造成 8 点伤害，两次。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 8,
+          "hits": 2
+        }
+      ]
+    },
+    {
+      "id": "h_seraph",
+      "name": "炽天使",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "回复 18 点生命，+2 圣印。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 18
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_verdict",
+      "name": "终审",
+      "cost": 2,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "uncommon",
+      "class": "hierophant",
+      "desc": "造成 10 点伤害，+2 圣印。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 10
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_miracle",
+      "name": "神迹",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "epic",
+      "class": "hierophant",
+      "desc": "回复 25 点生命，+2 溢流。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 25
+        },
+        {
+          "k": "self_status",
+          "status": "overflow",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_pillar",
+      "name": "光柱",
+      "cost": 3,
+      "type": "attack",
+      "target": "enemy",
+      "rarity": "epic",
+      "class": "hierophant",
+      "desc": "造成 24 点伤害，+2 圣印。",
+      "effects": [
+        {
+          "k": "damage",
+          "v": 24
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 2
+        }
+      ]
+    },
+    {
+      "id": "h_covenant",
+      "name": "圣约",
+      "cost": 2,
+      "type": "power",
+      "target": "none",
+      "rarity": "epic",
+      "class": "hierophant",
+      "desc": "+4 圣印。",
+      "effects": [
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 4
+        }
+      ]
+    },
+    {
+      "id": "h_apotheosis",
+      "name": "升华",
+      "cost": 3,
+      "type": "skill",
+      "target": "none",
+      "rarity": "legendary",
+      "class": "hierophant",
+      "desc": "回复 30 点生命，+4 圣印，抽 2 张牌。",
+      "effects": [
+        {
+          "k": "heal",
+          "v": 30
+        },
+        {
+          "k": "self_status",
+          "status": "seal",
+          "v": 4
+        },
+        {
+          "k": "draw",
+          "v": 2
+        }
+      ]
     }
   ]
 }
