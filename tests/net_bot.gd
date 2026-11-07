@@ -18,12 +18,14 @@ var room := "TEST"
 var nick := "bot"
 var elapsed := 0.0
 var cmds_seen := 0
+var life := 30.0
 
 func _ready() -> void:
 	for a in OS.get_cmdline_user_args():
 		if a.begins_with("--server="): server = a.substr(9)
 		elif a.begins_with("--room="): room = a.substr(7)
 		elif a.begins_with("--name="): nick = a.substr(7)
+		elif a.begins_with("--life="): life = float(a.substr(7))
 	net = NetClient.new()
 	add_child(net)
 	net.message_received.connect(_on_msg)
@@ -50,7 +52,7 @@ func _on_msg(m: Dictionary) -> void:
 
 func _process(delta: float) -> void:
 	elapsed += delta
-	if elapsed > 30.0:
+	if elapsed > life:
 		print("[%s] DONE cmds=%d final=%s" % [nick, cmds_seen, engine.state_hash() if engine else "none"])
 		get_tree().quit()
 		return

@@ -22,12 +22,13 @@
 
 - 单人爬塔：**<https://uniqueonez.github.io/nightfall-card-game/>**
 - 双人合作（同屏）：**<https://uniqueonez.github.io/nightfall-card-game/?mode=coop>**
-- 双人联机：`https://uniqueonez.github.io/nightfall-card-game/?mode=online&server=wss://<中继地址>&room=<房间号>`
+- 双人联机（**已上线**）：**<https://uniqueonez.github.io/nightfall-card-game/?mode=online&room=你的房间号>**
 
 （GitHub Pages，国内首次加载约 1 分钟）
 
 > - **同屏合作**：两人一台电脑，Tab 切换操作者。
-> - **联机合作**：两人各自打开链接，进入同一房间；需要先部署中继服务（见 [server/README.md](server/README.md)）。
+> - **联机合作**：两人打开同一个带 `room=` 的链接即可（房间号自定，如 `room=ABC`）。
+>   中继已部署在 Render：`wss://nightfall-relay-xfjw.onrender.com`（免费档，闲置 15 分钟休眠，首次连接约等 10–30 秒）。
 
 ## Web 版（可部署到服务器）
 

@@ -43,6 +43,7 @@ var net: NetClient = null
 var started := false
 var cmd_queue: Array = []
 var status_panel: Control = null
+var _connect_attempts := 0
 
 func _ready() -> void:
 	theme = UITheme.build()
@@ -207,10 +208,26 @@ func _start_online() -> void:
 	add_child(net)
 	net.message_received.connect(_on_net_message)
 	net.connected.connect(func() -> void:
+		_connect_attempts = 0
 		net.send({"t": "hello", "room": room_code, "name": "旅人%d" % (randi() % 90 + 10)}))
-	net.disconnected.connect(func() -> void: _show_status("连接已断开"))
-	_show_status("正在连接 %s …" % server_url)
+	net.disconnected.connect(func() -> void:
+		if started:
+			_show_status("连接已断开")
+		else:
+			_try_connect())
+	_try_connect()
+
+func _try_connect() -> void:
+	_connect_attempts += 1
+	_show_status("正在连接中继服务…（第 %d 次）" % _connect_attempts)
 	net.connect_to(server_url)
+	await get_tree().create_timer(10.0).timeout
+	if started or net.is_open():
+		return
+	if _connect_attempts < 8:
+		_try_connect()
+	else:
+		_show_status("无法连接中继服务，请检查网络后刷新页面")
 
 func _on_net_message(msg: Dictionary) -> void:
 	match str(msg.get("t", "")):

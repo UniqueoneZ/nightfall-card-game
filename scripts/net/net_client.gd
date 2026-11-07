@@ -13,6 +13,7 @@ var _was_open := false
 func connect_to(u: String) -> void:
 	url = u
 	_was_open = false
+	peer = WebSocketPeer.new()
 	var err := peer.connect_to_url(u)
 	if err != OK:
 		push_error("连接失败: %s (err=%d)" % [u, err])
