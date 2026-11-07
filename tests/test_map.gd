@@ -23,6 +23,14 @@ func _initialize() -> void:
 				if str(n["type"]) in ["battle", "elite", "boss"] and (n["enemies"] as Array).is_empty():
 					ok = false
 		_check("seed %d: 战斗节点都有敌人" % seed, ok)
+	var db = DatabaseScript.new()
+	db.reload()
+	var strike: Dictionary = db.card("strike")
+	var strike_up: Dictionary = db.card("strike+")
+	_check("升级版存在", not strike_up.is_empty())
+	_check("升级后伤害提高", int(strike_up["effects"][0]["v"]) > int(strike["effects"][0]["v"]))
+	_check("升级版有描述", str(strike_up.get("desc", "")) != "")
+	_check("升级版名称带＋", str(strike_up.get("name", "")).ends_with("＋"))
 	print("\n===== %d passed, %d failed =====" % [_pass, _fail])
 	quit(0 if _fail == 0 else 1)
 

@@ -133,11 +133,13 @@ func _open_non_battle(t: String) -> void:
 
 func _show_rest() -> void:
 	var amount := int(Game.max_hp * 0.3)
-	_open_modal("篝火", "火光很暖。你可以在这里休整片刻。", [
+	_open_modal("篝火", "火光很暖。你可以休息，也可以磨砺一张卡牌。", [
 		{"text": "休息（回复 %d 生命）" % amount, "cb": func() -> void:
 			Game.heal(amount)
 			Game.mark_visited()
 			_refresh()},
+		{"text": "升级一张卡牌", "cb": func() -> void:
+			_show_upgrade()},
 	])
 
 func _show_event() -> void:
@@ -191,6 +193,57 @@ func _show_shop() -> void:
 	_open_modal("商店", "金币 %d" % Game.gold, choices)
 
 # ---------------------------------------------------------------- 模态框
+
+func _show_upgrade() -> void:
+	var uniq: Array = []
+	for c in Game.deck:
+		var id := str(c)
+		if id.ends_with("+") or not DB.cards.has(id + "+"):
+			continue
+		if not uniq.has(id):
+			uniq.append(id)
+	if uniq.is_empty():
+		_open_modal("篝火", "牌组里已经没有可升级的卡了。", [
+			{"text": "返回", "cb": func() -> void: _refresh()}])
+		return
+	_close_modal()
+	modal = Control.new()
+	modal.set_anchors_preset(Control.PRESET_FULL_RECT)
+	modal.mouse_filter = Control.MOUSE_FILTER_STOP
+	modal.z_index = 100
+	add_child(modal)
+	var dim := ColorRect.new()
+	dim.color = Color(0, 0, 0, 0.78)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	modal.add_child(dim)
+	var panel := Panel.new()
+	panel.position = Vector2(300, 140)
+	panel.size = Vector2(840, 560)
+	panel.add_theme_stylebox_override("panel",
+		UITheme.panel_box(Color(0.07, 0.085, 0.12, 0.98), UITheme.GOLD_DIM, 16, 2))
+	modal.add_child(panel)
+	var t := _label("升级一张卡牌", 26, UITheme.GOLD)
+	t.position = Vector2(0, 24)
+	t.size = Vector2(840, 36)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	panel.add_child(t)
+	var cols := 3
+	for i in uniq.size():
+		var id := str(uniq[i])
+		var base := DB.card(id)
+		var up := DB.card(id + "+")
+		var b := Button.new()
+		b.size = Vector2(250, 64)
+		b.position = Vector2(30 + (i % cols) * 262, 84 + (i / cols) * 76)
+		b.text = "%s\n%s" % [str(base.get("name", id)), str(up.get("desc", ""))]
+		b.add_theme_font_size_override("font_size", 12)
+		b.pressed.connect(func() -> void:
+			var idx := Game.deck.find(id)
+			if idx >= 0:
+				Game.deck[idx] = id + "+"
+			Game.mark_visited()
+			_refresh())
+		panel.add_child(b)
 
 func _show_relic_reward() -> void:
 	var choices: Array = Game.roll_relic_choices(Game.run_seed + Game.floor_idx * 977 + Game.battles_won)
