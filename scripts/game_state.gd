@@ -163,6 +163,36 @@ func roll_relic_choices(rng_seed: int) -> Array:
 # ---------------------------------------------------------------- 存档
 
 const SAVE_PATH := "user://run.json"
+const META_PATH := "user://meta.json"
+
+var meta := {"runs": 0, "wins": 0, "best_floor": 0, "kills": 0}
+
+func load_meta() -> void:
+	if not FileAccess.file_exists(META_PATH):
+		return
+	var f := FileAccess.open(META_PATH, FileAccess.READ)
+	if f == null:
+		return
+	var parsed = JSON.parse_string(f.get_as_text())
+	f.close()
+	if typeof(parsed) == TYPE_DICTIONARY:
+		for k in meta.keys():
+			meta[k] = int(parsed.get(k, meta[k]))
+
+func save_meta() -> void:
+	var f := FileAccess.open(META_PATH, FileAccess.WRITE)
+	if f == null:
+		return
+	f.store_string(JSON.stringify(meta))
+	f.close()
+
+func record_run(won: bool) -> void:
+	load_meta()
+	meta["runs"] = int(meta["runs"]) + 1
+	if won:
+		meta["wins"] = int(meta["wins"]) + 1
+	meta["best_floor"] = maxi(int(meta["best_floor"]), floor_idx + 1)
+	save_meta()
 
 func save_run() -> void:
 	var data := {

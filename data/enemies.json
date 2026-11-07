@@ -237,6 +237,127 @@
         3,
         4
       ]
+    },
+    {
+      "id": "wraith",
+      "name": "哀嚎幽魂",
+      "hp": 34,
+      "shape": "eye",
+      "tint": "#6F8FA8",
+      "scale": 0.95,
+      "flavor": "它记得自己死前喊过什么。",
+      "moves": [
+        {
+          "name": "哀嚎",
+          "type": "debuff",
+          "status": "weak",
+          "value": 1
+        },
+        {
+          "name": "侵蚀",
+          "type": "attack",
+          "damage": 8
+        },
+        {
+          "name": "消散",
+          "type": "attack",
+          "damage": 11
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "hound",
+      "name": "影犬",
+      "hp": 30,
+      "shape": "fang",
+      "tint": "#8A6A4A",
+      "scale": 0.9,
+      "flavor": "它们从不成单出现。",
+      "moves": [
+        {
+          "name": "撕咬",
+          "type": "attack",
+          "damage": 4,
+          "hits": 2
+        },
+        {
+          "name": "扑击",
+          "type": "attack",
+          "damage": 9
+        }
+      ],
+      "pattern": [
+        0,
+        1
+      ]
+    },
+    {
+      "id": "acolyte",
+      "name": "灰袍侍僧",
+      "hp": 38,
+      "shape": "spike",
+      "tint": "#8E7AA8",
+      "scale": 1.0,
+      "flavor": "他相信只要再献上一个人。",
+      "moves": [
+        {
+          "name": "祈愿",
+          "type": "buff",
+          "status": "strength",
+          "value": 2
+        },
+        {
+          "name": "鞭笞",
+          "type": "attack",
+          "damage": 8
+        },
+        {
+          "name": "护持",
+          "type": "defend",
+          "block": 9
+        }
+      ],
+      "pattern": [
+        1,
+        0,
+        2
+      ]
+    },
+    {
+      "id": "golem",
+      "name": "守墓魔像",
+      "hp": 66,
+      "shape": "spike",
+      "tint": "#7C8494",
+      "scale": 1.15,
+      "flavor": "它只负责不让东西出去。",
+      "moves": [
+        {
+          "name": "石拳",
+          "type": "attack",
+          "damage": 12
+        },
+        {
+          "name": "硬化",
+          "type": "defend",
+          "block": 10
+        },
+        {
+          "name": "崩塌",
+          "type": "attack",
+          "damage": 16
+        }
+      ],
+      "pattern": [
+        0,
+        1,
+        2
+      ]
     }
   ],
   "encounters": [

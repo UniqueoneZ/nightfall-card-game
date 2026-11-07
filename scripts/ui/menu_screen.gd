@@ -77,7 +77,9 @@ func _ready() -> void:
 		get_tree().change_scene_to_file("res://scenes/coop.tscn"))
 	add_child(coop)
 
-	var foot := _label("原型 v0.3 · Godot 4.5 · 双人合作：掩护队友、合击加成、倒下复活", 13,
+	Game.load_meta()
+	var foot := _label("已进行 %d 局 · 通关 %d 次 · 最深 %d 层　　　Godot 4.5" % [
+		int(Game.meta.get("runs", 0)), int(Game.meta.get("wins", 0)), int(Game.meta.get("best_floor", 0))], 13,
 		Color(0.34, 0.37, 0.44))
 	foot.position = Vector2(0, 840)
 	foot.size = Vector2(1440, 24)

@@ -397,6 +397,7 @@ func _on_victory() -> void:
 			Game.pending_relic = true
 		var boss := Game.node_type() == "boss"
 		if boss:
+			Game.record_run(true)
 			_show_overlay("黎明之前", "%s\n\n你击败了无光之王。" % sub, "再来一局", _restart)
 		else:
 			_show_overlay("战斗胜利", "%s\n\n+%d 金币" % [sub, 25 + maxi(Game.floor_idx, 0) * 5 + Relics.gold_bonus(Game.relics)], "返回地图", _back_to_map)
