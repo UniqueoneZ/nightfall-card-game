@@ -3,4 +3,5 @@
 .godot/
 build/
 export/
+server/node_modules/
 shot*.png

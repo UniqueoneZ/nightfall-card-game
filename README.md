@@ -21,12 +21,13 @@
 ## 在线试玩
 
 - 单人爬塔：**<https://uniqueonez.github.io/nightfall-card-game/>**
-- 双人合作：**<https://uniqueonez.github.io/nightfall-card-game/?mode=coop>**
+- 双人合作（同屏）：**<https://uniqueonez.github.io/nightfall-card-game/?mode=coop>**
+- 双人联机：`https://uniqueonez.github.io/nightfall-card-game/?mode=online&server=wss://<中继地址>&room=<房间号>`
 
 （GitHub Pages，国内首次加载约 1 分钟）
 
-> 双人合作目前是**同屏热座**：两名玩家轮流操作，按 Tab 或点上方按钮切换。
-> 联机版（各看各的屏幕）在网络层完成后开放。
+> - **同屏合作**：两人一台电脑，Tab 切换操作者。
+> - **联机合作**：两人各自打开链接，进入同一房间；需要先部署中继服务（见 [server/README.md](server/README.md)）。
 
 ## Web 版（可部署到服务器）
 

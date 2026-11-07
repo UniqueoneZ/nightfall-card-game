@@ -10,11 +10,11 @@ func _ready() -> void:
 	# 深链：Web 版可用 ?mode=coop 直接进入双人合作
 	if OS.has_feature("web"):
 		var q = JavaScriptBridge.eval("window.location.search", true)
-		if typeof(q) == TYPE_STRING and str(q).contains("mode=coop"):
-			get_tree().change_scene_to_file("res://scenes/coop.tscn")
+		if typeof(q) == TYPE_STRING and (str(q).contains("mode=coop") or str(q).contains("mode=online")):
+			get_tree().change_scene_to_file.call_deferred("res://scenes/coop.tscn")
 			return
-	elif "--coop" in OS.get_cmdline_user_args():
-		get_tree().change_scene_to_file("res://scenes/coop.tscn")
+	elif "--coop" in OS.get_cmdline_user_args() or _has_online_arg():
+		get_tree().change_scene_to_file.call_deferred("res://scenes/coop.tscn")
 		return
 
 	var bg := ArenaBackground.new()
@@ -108,3 +108,9 @@ void fragment() {
 	mat.shader = sh
 	rect.material = mat
 	return rect
+
+func _has_online_arg() -> bool:
+	for a in OS.get_cmdline_user_args():
+		if a.begins_with("--online="):
+			return true
+	return false

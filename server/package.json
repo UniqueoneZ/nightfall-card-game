@@ -1,0 +1,16 @@
+{
+  "name": "nightfall-relay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "夜蚀 · 房间与指令广播中继服务",
+  "main": "relay.js",
+  "scripts": {
+    "start": "node relay.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -436,6 +436,26 @@ func _intent_for(b: Dictionary) -> Dictionary:
 			it["target_name"] = "" if tgt.is_empty() else str(tgt["name"])
 	return it
 
+## 联机指令入口：所有会影响状态的操作都从这里走，便于广播与回放
+func execute(cmd: Dictionary) -> bool:
+	match str(cmd.get("type", "")):
+		"play":
+			return play_card(int(cmd.get("pi", 0)), int(cmd.get("hand_index", -1)), str(cmd.get("target", "")))
+		"end":
+			end_round()
+			return true
+	return false
+
+## 状态指纹：两端比对用，不一致说明锁步崩了
+func state_hash() -> String:
+	var parts: Array = ["r%d" % round, "boss:%d/%d" % [int(boss["hp"]), int(boss["block"])], phase]
+	for p in players:
+		parts.append("%s:%d:%d:%d:%d:%s" % [
+			p["id"], int(p["hp"]), int(p["block"]), int(p["energy"]),
+			p["hand"].size(), ",".join(p["hand"]),
+		])
+	return "|".join(parts).sha256_text().substr(0, 16)
+
 func _finish(result: String) -> void:
 	if phase == "victory" or phase == "defeat":
 		return

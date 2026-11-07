@@ -34,6 +34,16 @@ var targeting_idx := -1
 var busy := false
 var shot_mode := false
 
+# 联机
+var online := false
+var my_seat := 0
+var room_code := "OPEN"
+var server_url := ""
+var net: NetClient = null
+var started := false
+var cmd_queue: Array = []
+var status_panel: Control = null
+
 func _ready() -> void:
 	theme = UITheme.build()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -42,8 +52,30 @@ func _ready() -> void:
 	for a in args:
 		if a.begins_with("--p="):
 			active_idx = clampi(int(a.substr(4)), 0, 1)
+		elif a.begins_with("--online="):
+			online = true
+			server_url = a.substr(9)
+		elif a.begins_with("--room="):
+			room_code = a.substr(7).to_upper()
+	# Web 深链：?mode=online&server=ws://host:port&room=ABCD
+	if OS.has_feature("web"):
+		var q = JavaScriptBridge.eval("window.location.search", true)
+		if typeof(q) == TYPE_STRING and str(q).contains("mode=online"):
+			online = true
+			var ms := RegEx.create_from_string("[?&]server=([^&]+)").search(str(q))
+			if ms != null:
+				server_url = str(ms.get_string(1)).uri_decode()
+			var mr := RegEx.create_from_string("[?&]room=([^&]+)").search(str(q))
+			if mr != null:
+				room_code = str(mr.get_string(1)).to_upper()
+	if online and server_url == "":
+		server_url = "ws://127.0.0.1:8787"
+
 	_build()
-	_start_battle()
+	if online:
+		_start_online()
+	else:
+		_start_battle()
 	if shot_mode:
 		_run_shot()
 
@@ -170,6 +202,73 @@ void fragment() {
 
 # ---------------------------------------------------------------- 战斗
 
+func _start_online() -> void:
+	net = NetClient.new()
+	add_child(net)
+	net.message_received.connect(_on_net_message)
+	net.connected.connect(func() -> void:
+		net.send({"t": "hello", "room": room_code, "name": "旅人%d" % (randi() % 90 + 10)}))
+	net.disconnected.connect(func() -> void: _show_status("连接已断开"))
+	_show_status("正在连接 %s …" % server_url)
+	net.connect_to(server_url)
+
+func _on_net_message(msg: Dictionary) -> void:
+	match str(msg.get("t", "")):
+		"wait":
+			my_seat = int(msg.get("seat", 0))
+			room_code = str(msg.get("room", room_code))
+			_show_status("房间 %s\n等待队友加入…（1 / 2）" % room_code)
+		"start":
+			_begin_online(int(msg.get("seed", 0)), msg.get("seats", []))
+		"cmd":
+			if started:
+				_apply_cmd(msg.get("cmd", {}))
+		"left":
+			_show_status("队友已离开房间")
+		"error":
+			_show_status("房间错误：%s" % str(msg.get("msg", "")))
+
+func _begin_online(seed: int, seats: Array) -> void:
+	engine = CoopEngine.new()
+	engine.setup(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()], DB.enemy("warden"), seed)
+	for i in mini(seats.size(), 2):
+		var s: Dictionary = seats[i]
+		engine.players[i]["name"] = "%s %s" % [engine.players[i]["name"], str(s.get("name", ""))]
+	active_idx = my_seat
+	started = true
+	busy = false
+	cmd_queue.clear()
+	_hide_status()
+	boss_view.configure(engine.boss)
+	_refresh()
+
+func _show_status(text: String) -> void:
+	if status_panel == null:
+		status_panel = Control.new()
+		status_panel.set_anchors_preset(Control.PRESET_FULL_RECT)
+		status_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+		status_panel.z_index = 950
+		add_child(status_panel)
+		var dim := ColorRect.new()
+		dim.color = Color(0, 0, 0, 0.78)
+		dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+		status_panel.add_child(dim)
+	var l := status_panel.get_node_or_null("msg") as Label
+	if l == null:
+		l = _make_label("", 22, UITheme.TEXT)
+		l.name = "msg"
+		l.position = Vector2(0, 400)
+		l.size = Vector2(1440, 100)
+		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		status_panel.add_child(l)
+	l.text = text
+	status_panel.visible = true
+
+func _hide_status() -> void:
+	if status_panel != null:
+		status_panel.visible = false
+
 func _start_battle() -> void:
 	engine = CoopEngine.new()
 	engine.setup(DB.cards, [DECKS[0].duplicate(), DECKS[1].duplicate()], DB.enemy("warden"), 20261107)
@@ -182,7 +281,10 @@ func _start_battle() -> void:
 
 func _refresh() -> void:
 	round_label.text = "双人合作 · 回合 %d" % engine.round
-	info_label.text = "P1 抽牌堆 %d    P2 抽牌堆 %d" % [
+	if online:
+		info_label.text = "房间 %s    P1 抽牌堆 %d    P2 抽牌堆 %d" % [room_code, engine.players[0]["draw"].size(), engine.players[1]["draw"].size()]
+	else:
+		info_label.text = "P1 抽牌堆 %d    P2 抽牌堆 %d" % [
 		engine.players[0]["draw"].size(), engine.players[1]["draw"].size()
 	]
 	boss_view.configure(engine.boss)
@@ -192,6 +294,7 @@ func _refresh() -> void:
 			bool(p["downed"]), i == active_idx and not bool(p["downed"]))
 	for i in 2:
 		var b: Button = tab_buttons[i]
+		b.visible = not online
 		b.disabled = busy
 		var on := i == active_idx
 		b.add_theme_stylebox_override("normal",
@@ -233,7 +336,7 @@ func _default_ally() -> String:
 # ---------------------------------------------------------------- 交互
 
 func _switch_player(i: int) -> void:
-	if busy or engine.phase != "player":
+	if online or busy or engine.phase != "player":
 		return
 	if i == active_idx:
 		return
@@ -284,31 +387,39 @@ func _on_hotspot_input(event: InputEvent, pid: String) -> void:
 func _play(idx: int, target_id: String) -> void:
 	if busy or engine.phase != "player":
 		return
-	if not engine.play_card(active_idx, idx, target_id):
+	if online and active_idx != my_seat:
 		return
-	busy = true
-	end_button.disabled = true
-	var evs := engine.take_events()
-	_rebuild_hand()
-	await _animate(evs)
-	busy = false
-	_refresh()
-	_check_outcome()
+	_submit({"type": "play", "pi": active_idx, "hand_index": idx, "target": target_id})
 
 func _on_end_round() -> void:
 	if busy or engine.phase != "player":
 		return
-	busy = true
 	targeting_idx = -1
 	_clear_hotspots()
-	end_button.disabled = true
-	engine.end_round()
-	var evs := engine.take_events()
-	_rebuild_hand()
-	await _animate(evs)
-	busy = false
-	_refresh()
-	_check_outcome()
+	_submit({"type": "end", "pi": active_idx})
+
+func _submit(cmd: Dictionary) -> void:
+	if online:
+		busy = true
+		end_button.disabled = true
+		net.send({"t": "cmd", "cmd": cmd})
+	else:
+		_apply_cmd(cmd)
+
+func _apply_cmd(cmd: Dictionary) -> void:
+	cmd_queue.append(cmd)
+	if busy:
+		return
+	while not cmd_queue.is_empty():
+		busy = true
+		var c: Dictionary = cmd_queue.pop_front()
+		engine.execute(c)
+		var evs := engine.take_events()
+		_rebuild_hand()
+		await _animate(evs)
+		busy = false
+		_refresh()
+		await _check_outcome()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
@@ -417,10 +528,10 @@ func _check_outcome() -> void:
 	if engine.phase == "victory":
 		await _wait(0.7)
 		_show_overlay("守卫陨落", "你们击败了双子守卫。\n造成 %d 伤害 · 合击 %d 次" % [
-			int(engine.stats["damage"]), int(engine.stats["coop_hits"])], "再来一局", _start_battle)
+			int(engine.stats["damage"]), int(engine.stats["coop_hits"])], "返回主菜单", _leave_table)
 	elif engine.phase == "defeat":
 		await _wait(0.7)
-		_show_overlay("双双倒下", "无光王座之下，无人应答。", "再来一局", _start_battle)
+		_show_overlay("双双倒下", "无光王座之下，无人应答。", "返回主菜单", _leave_table)
 
 func _show_overlay(title: String, sub: String, btn: String, cb: Callable) -> void:
 	_close_overlay()
@@ -483,3 +594,8 @@ func _run_shot() -> void:
 		img.save_png(ProjectSettings.globalize_path("res://shot_coop.png"))
 		print("SHOT_SAVED coop")
 	get_tree().quit()
+
+func _leave_table() -> void:
+	if net != null:
+		net.close()
+	get_tree().change_scene_to_file("res://scenes/menu.tscn")
