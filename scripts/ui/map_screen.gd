@@ -35,6 +35,14 @@ func _build_hud() -> void:
 	hud.size = Vector2(900, 28)
 	add_child(hud)
 
+	var deck_btn := Button.new()
+	deck_btn.text = "牌组 / 遗物"
+	deck_btn.position = Vector2(1070, 18)
+	deck_btn.size = Vector2(160, 40)
+	deck_btn.add_theme_font_size_override("font_size", 14)
+	deck_btn.pressed.connect(func() -> void: _show_deck())
+	add_child(deck_btn)
+
 	var back := Button.new()
 	back.text = "放弃本局"
 	back.position = Vector2(1250, 18)
@@ -206,6 +214,18 @@ func _show_shop() -> void:
 
 # ---------------------------------------------------------------- 模态框
 
+func _show_deck() -> void:
+	var uniq: Array = []
+	for c in Game.deck:
+		var id := str(c)
+		if not uniq.has(id):
+			uniq.append(id)
+	var relic_names: Array = []
+	for r in Game.relics:
+		relic_names.append(str(Relics.get_def(str(r)).get("name", r)))
+	var note := "遗物：" + ("、".join(relic_names) if not relic_names.is_empty() else "无")
+	_show_card_grid("牌组（%d 张）" % Game.deck.size(), uniq, func(_id: String) -> void: _close_modal(), note)
+
 func _show_remove() -> void:
 	var uniq: Array = []
 	for c in Game.deck:
@@ -218,7 +238,7 @@ func _show_remove() -> void:
 		Game.mark_visited()
 		_refresh())
 
-func _show_card_grid(title: String, ids: Array, cb: Callable) -> void:
+func _show_card_grid(title: String, ids: Array, cb: Callable, note: String = "") -> void:
 	_close_modal()
 	modal = Control.new()
 	modal.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -240,6 +260,12 @@ func _show_card_grid(title: String, ids: Array, cb: Callable) -> void:
 	t.size = Vector2(840, 36)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	panel.add_child(t)
+	if note != "":
+		var n := _label(note, 14, UITheme.TEXT_DIM)
+		n.position = Vector2(0, 62)
+		n.size = Vector2(840, 24)
+		n.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		panel.add_child(n)
 	var cols := 3
 	for i in ids.size():
 		var id := str(ids[i])
