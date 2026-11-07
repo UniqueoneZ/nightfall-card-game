@@ -32,7 +32,19 @@ http://127.0.0.1:8792/?mode=online&server=ws://127.0.0.1:8787&room=TEST
 服务端给每条指令编号并广播，两端按同一顺序执行，因此状态必然一致。
 联机测试用 `state_hash()` 校验：两个无头客户端跑 48 步指令，哈希逐步完全相同。
 
-## 部署（三选一）
+## 一键部署到 Render（推荐，免费）
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/UniqueoneZ/nightfall-card-game)
+
+点上面的按钮 → GitHub 登录授权 → Render 自动读取 `render.yaml` 建服务 → 完成后拿到
+`wss://<服务名>.onrender.com`。
+
+免费档说明：
+- 15 分钟无流量会休眠，首次连接约 30 秒唤醒；
+- 对局进行中有 WebSocket 心跳，不会休眠；
+- 不需要信用卡。
+
+## 其他部署方式
 
 ### Render（免费，最省事）
 

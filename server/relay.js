@@ -15,13 +15,25 @@
  *   S→C  {"t":"left","seat":1}
  */
 
+const http = require('http');
 const { WebSocketServer } = require('ws');
 
 const PORT = parseInt(process.argv[2] || process.env.PORT || '8080', 10);
 const MAX_PLAYERS = 2;
 const IDLE_TIMEOUT_MS = 10 * 60 * 1000; // 房间空闲 10 分钟回收
 
-const wss = new WebSocketServer({ port: PORT });
+// 用 HTTP server 承载 WebSocket，顺便提供 /health 给托管平台做健康检查
+const httpServer = http.createServer((req, res) => {
+  if (req.url === '/health' || req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('ok');
+    return;
+  }
+  res.writeHead(404);
+  res.end();
+});
+
+const wss = new WebSocketServer({ server: httpServer });
 /** @type {Map<string, Room>} */
 const rooms = new Map();
 
@@ -149,4 +161,6 @@ setInterval(() => {
   }
 }, 60 * 1000);
 
-console.log(`nightfall relay listening on ws://0.0.0.0:${PORT}`);
+httpServer.listen(PORT, () => {
+  console.log(`nightfall relay listening on ws://0.0.0.0:${PORT}`);
+});
