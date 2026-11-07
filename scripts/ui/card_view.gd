@@ -14,6 +14,7 @@ var hovered := false
 var targeted := false
 var home := Vector2.ZERO
 var tex: Texture2D = null
+var art_tex: Texture2D = null
 var _tw: Tween = null
 
 func configure(p_card: Dictionary, p_index: int, p_playable: bool) -> void:
@@ -28,6 +29,7 @@ func configure(p_card: Dictionary, p_index: int, p_playable: bool) -> void:
 	modulate = Color(1, 1, 1, 1) if playable else Color(0.66, 0.68, 0.74, 0.9)
 	tooltip_text = ""
 	tex = _pick_icon(card)
+	art_tex = _pick_art(card)
 	queue_redraw()
 
 const CLASS_ICONS := {
@@ -37,6 +39,23 @@ const CLASS_ICONS := {
 	"hierophant": ["holy", "heal", "regen", "scroll", "sun", "block"],
 	"beastcaller": ["summon", "ranged", "vulnerable", "gold", "moon", "energy"],
 }
+
+const CLASS_FAMILY := {
+	"oathbound": "paladin", "hierophant": "paladin",
+	"emberwright": "warlock", "beastcaller": "warlock",
+	"shadowblade": "rogue",
+}
+
+func _pick_art(c: Dictionary) -> Texture2D:
+	var fam := str(CLASS_FAMILY.get(str(c.get("class", "")), "neutral"))
+	var kind := "spell"
+	match str(c.get("type", "")):
+		"skill": kind = "landmark"
+		"power": kind = "talent"
+	var path := "res://assets/art/%s_%s.webp" % [fam, kind]
+	if not ResourceLoader.exists(path):
+		path = "res://assets/art/neutral_spell.webp"
+	return load(path) if ResourceLoader.exists(path) else null
 
 func _pick_icon(c: Dictionary) -> Texture2D:
 	# 1) 效果优先：治疗/抽牌/中毒/灼烧 用专属图标
@@ -133,6 +152,19 @@ func _draw() -> void:
 	# 插画区
 	var art := Rect2(6, 6, w - 12, 84)
 	draw_rect(art, Color(accent.r, accent.g, accent.b, 0.15))
+	if art_tex != null:
+		# 居中裁切，避免拉伸变形
+		var tw: float = float(art_tex.get_width())
+		var th: float = float(art_tex.get_height())
+		var band_ratio: float = art.size.x / art.size.y
+		var src_w := tw
+		var src_h := tw / band_ratio
+		if src_h > th:
+			src_h = th
+			src_w = th * band_ratio
+		var src := Rect2((tw - src_w) * 0.5, (th - src_h) * 0.28, src_w, src_h)
+		draw_texture_rect_region(art_tex, art, src, Color(1, 1, 1, 0.55))
+		draw_rect(art, Color(0.05, 0.06, 0.09, 0.35))
 	draw_circle(art.get_center(), 34.0, Color(accent.r, accent.g, accent.b, 0.13))
 	draw_circle(art.get_center(), 20.0, Color(accent.r, accent.g, accent.b, 0.10))
 	if tex != null:
